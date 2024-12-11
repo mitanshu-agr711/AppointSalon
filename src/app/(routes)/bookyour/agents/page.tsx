@@ -1,8 +1,5 @@
 import Image from 'next/image';
-import Contact from '../../../../public/contact.png';
-import Agent from '../../../../public/boycontacts.png';
-import John from '../../../../public/young-man.png';
-import Mirra from '../../../../public/woman.png';
+
 import Link from 'next/link'
 
 export default function Agents() {
@@ -18,7 +15,7 @@ export default function Agents() {
                             <div className='h-full justify-center items-center flex-col flex space-y-8'>
                                 <div className="text-lg mt-4 w-3/4">
                                     <div className="justify-center items-center flex ">
-                                        <Image src={Contact} alt="Contact Icon" />
+                                        <Image src='/contact.png' alt="Contact Icon"  width={40} height={40} />
                                     </div>
                                     <div className="font-bold flex justify-center items-center">Agents</div>
                                     <span className="text-gray-600 w-1/6">
@@ -37,7 +34,7 @@ export default function Agents() {
                             <ul className="space-x-4 flex">
 
                                 <li className=" space-x-4 outline outline-2 outline-slate-500 hover:outline-blue-500 p-4 rounded-lg w-2/3">
-                                    <Image src='/boycontacts.png' alt="Any Agent" className="w-14 h-14 flex justify-center items-center m-3" />
+                                    <Image src='/boycontacts.png' alt="Any Agent"  width={40} height={40} className="w-14 h-14 flex justify-center items-center m-3" />
 
                                     <div className="font-semibold">Any Agent</div>
 
@@ -45,7 +42,7 @@ export default function Agents() {
 
 
                                 <li className="items-center space-x-4 outline outline-2 outline-slate-500 hover:outline-blue-500 p-4 rounded-lg w-2/3">
-                                    <div><Image src={John} alt="John Icon" className="w-14 h-14 m-3" /></div>
+                                    <div><Image src='/young-man.png' alt="John Icon"  width={40} height={40} className="w-14 h-14 m-3" /></div>
                                     <div>
                                         <div className="font-semibold">John</div>
                                     </div>
@@ -53,7 +50,7 @@ export default function Agents() {
 
 
                                 <li className=" items-center space-x-4 outline outline-2 outline-slate-500 hover:outline-blue-500 p-4 rounded-lg w-2/3">
-                                    <Image src={Mirra} alt="Hair Wash Icon" className="w-14 h-14 m-3" />
+                                    <Image src='/woman.png' alt="Hair Wash Icon"  width={40} height={40} className="w-14 h-14 m-3" />
                                     <div>
                                         <div className="font-semibold font-">Mirra</div>
                                     </div>

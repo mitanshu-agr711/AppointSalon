@@ -1,7 +1,5 @@
 import Image from 'next/image';
-import Blowdry from '../../../public/blow-dry.png';
-import Scissors from '../../../public/scissors.png';
-import Tube from '../../../public/tube.png';
+
 import Link from 'next/link'
 // import Agents from './components/agents';
 export default function BookApp() {
@@ -32,7 +30,7 @@ export default function BookApp() {
                             <Link href="/bookyour/agents"><li
                                 className="flex items-center space-x-4 outline outline-2 outline-offset-2  outline-slate-500 hover:outline-blue-500 w-auto  p-2">
 
-                                <Image src={Blowdry} alt="Blowdry Icon" className="w-10 h-10" />
+                                <Image src='/blow-dry.png' alt="Blowdry Icon" width={40} height={40} className="w-10 h-10" />
                                 <div>
                                     <div>Hair Coloring</div>
                                     <div className="text-sm text-gray-600">Change Color of hair permanently</div>
@@ -43,7 +41,8 @@ export default function BookApp() {
                             <Link href="/bookyour/agents"><li
                                 className="flex mt-9 items-center space-x-4 outline outline-2 outline-offset-2 outline-slate-500 hover:outline-blue-500 w-auto p-2">
 
-                                <Image src={Scissors} alt="Scissors Icon" className="w-10 h-10" />
+                                <Image src='/scissors.png' alt="Scissors Icon" width={40}
+                                    height={40} className="w-10 h-10" />
                                 <div>
                                     <div>Hair Cut</div>
                                     <div className="text-sm text-gray-600">Come experience a perfect haircut today with the best stylists</div>
@@ -54,7 +53,8 @@ export default function BookApp() {
                             <Link href="/bookyour/agents"><li
                                 className="flex mt-9  items-center space-x-4 outline outline-2 outline-offset-2 outline-slate-500  hover:outline-blue-500 w-auto  p-2">
 
-                                <Image src={Tube} alt="Tube Icon" className="w-10 h-10" />
+                                <Image src='/tube.png' alt="Tube Icon" width={40}
+                                    height={40} className="w-10 h-10" />
                                 <div>
                                     <div>Hair Wash</div>
                                     <div className="text-sm text-gray-600">Come experience a perfect haircut today with the best stylists</div>
