@@ -53,16 +53,16 @@ const Summary: React.FC<SummaryProps> = ({ selectedServiceId }) => {
     }
     return (
         <div className="space-y-8">
-            <div className="text-4xl w-full flex justify-center items-center">
+            <div className="text-4xl" >
                 Summary
             </div>
-            <div className="border border-slate-800 p-4 w-full h-full divide-y divide-dashed hover:divide-solid">
-                <ul className="space-y-4 h-full">
-                    <li className="w-full flex justify-between">
+            <div className=" p-10 h-full  ">
+                <ul className="space-y-8 h-full">
+                    <li>
                         <span>Service:</span>
                         <span>{selectedService.service}</span>
                     </li>
-                    <li className="w-full flex justify-between">
+                    <li >
                         <span>Price:</span>
                         <span>{`$${selectedService.price.toFixed(2)}`}</span>
                     </li>
