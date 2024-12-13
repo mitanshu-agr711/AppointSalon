@@ -3,7 +3,9 @@
 import Summary from './summary/page';
 import Sidebar from './sidebar/page';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 
 type Service = {
     name: string;
@@ -32,10 +34,18 @@ const services: Service[] = [
 ];
 
 export default function BookApp() {
-    const [selectedLabel, setSelectedLabel] = useState<string | null>(null);
 
+  
+    const router = useRouter();
+    const [selectedLabel, setSelectedLabel] = useState<string | null>(null);
+    const searchParams = useSearchParams();
+    useEffect(() => {
+        const service = searchParams.get('service');
+        setSelectedLabel(service || null);
+    }, [searchParams]);
     const handleServiceClick = (label: string) => {
         setSelectedLabel(label);
+        router.push(`/bookyour/agents?service=${label}`); 
     };
 
     return (
@@ -64,10 +74,12 @@ export default function BookApp() {
                         <div className="text-2xl text-center">Available Services</div>
                         <ul className="space-y-4">
                             {services.map((service, index) => (
-                                <li
+                                <li 
                                     key={labels[index]}
                                     className="flex items-center space-x-4 border p-2 hover:border-blue-500 cursor-pointer rounded-md shadow-sm"
-                                    onClick={() => handleServiceClick(labels[index])}
+                                    onClick={
+                                        () => handleServiceClick(labels[index])
+                                    }
                                 >
                                     <Image
                                         src={service.icon}

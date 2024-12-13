@@ -1,13 +1,34 @@
+
+'use client';
+
+import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 
-import Link from 'next/link'
+import Summary from '../summary/page';
+
+import { useRouter } from 'next/navigation';
+
+// type selectedServiceId = {
+//     service: string;
+// }
 
 export default function Agents() {
+   const router = useRouter();
+
+    const searchParams = useSearchParams();
+    const service = searchParams.get('service') || '';
+    console.log(service);
+    const handleOnclick = () => {
+        
+        router.push(`/bookyour?service=${service}`); 
+    };
+
+
     return (
         <>
             <div className="flex items-center justify-center h-screen">
 
-                <div className="justify-center items-center border border-slate-800 p-4 w-1/2 h-auto divide-y divide-dashed hover:divide-solid">
+                <div className="justify-center items-center border border-slate-800 p-4 w-auto h-auto divide-y divide-dashed hover:divide-solid">
 
                     <div className="flex w-full h-full justify-between">
 
@@ -56,8 +77,16 @@ export default function Agents() {
                                     </div>
                                 </li>
                             </ul>
-                            <div className='mt-6'><Link href="/bookyour" className='font-bold text-gray-500'>🔙Back</Link></div>
+                            <div className='mt-6' onClick={()=>handleOnclick()}>
+                                🔙Back</div>
                         </div>
+
+                        
+                        <div className="flex flex-col flex-1 border border-gray-600 p-6 rounded-lg shadow-lg m-5">
+                            <Summary  selectedServiceId={service}/>
+                        </div>
+                 
+
                     </div>
                 </div>
             </div>
