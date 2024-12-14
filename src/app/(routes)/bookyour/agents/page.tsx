@@ -8,21 +8,21 @@ import Summary from '../summary/page';
 
 import { useRouter } from 'next/navigation';
 
-// type selectedServiceId = {
-//     service: string;
-// }
+
 
 export default function Agents() {
    const router = useRouter();
 
     const searchParams = useSearchParams();
     const service = searchParams.get('service') || '';
-    console.log(service);
+    // console.log(service);
     const handleOnclick = () => {
         
         router.push(`/bookyour?service=${service}`); 
     };
-
+    const handleOnAgent=()=>{
+        router.push(`/calender?service=${service}`); 
+    }
 
     return (
         <>
@@ -54,7 +54,9 @@ export default function Agents() {
                             <div className="flex justify-center items-center m-4 mb-6 text-4xl">Available Agents</div>
                             <ul className="space-x-4 flex">
 
-                                <li className=" space-x-4 outline outline-2 outline-slate-500 hover:outline-blue-500 p-4 rounded-lg w-2/3">
+                                <li className=" space-x-4 outline outline-2 outline-slate-500 hover:outline-blue-500 p-4 rounded-lg w-2/3"
+                                 onClick={()=>handleOnAgent()}
+                                 >
                                     <Image src='/boycontacts.png' alt="Any Agent"  width={40} height={40} className="w-14 h-14 flex justify-center items-center m-3" />
 
                                     <div className="font-semibold">Any Agent</div>
@@ -62,7 +64,9 @@ export default function Agents() {
                                 </li>
 
 
-                                <li className="items-center space-x-4 outline outline-2 outline-slate-500 hover:outline-blue-500 p-4 rounded-lg w-2/3">
+                                <li className="items-center space-x-4 outline outline-2 outline-slate-500 hover:outline-blue-500 p-4 rounded-lg w-2/3"
+                                 onClick={()=>handleOnAgent()}
+                                >
                                     <div><Image src='/young-man.png' alt="John Icon"  width={40} height={40} className="w-14 h-14 m-3" /></div>
                                     <div>
                                         <div className="font-semibold">John</div>
@@ -70,7 +74,9 @@ export default function Agents() {
                                 </li>
 
 
-                                <li className=" items-center space-x-4 outline outline-2 outline-slate-500 hover:outline-blue-500 p-4 rounded-lg w-2/3">
+                                <li className=" items-center space-x-4 outline outline-2 outline-slate-500 hover:outline-blue-500 p-4 rounded-lg w-2/3"
+                                 onClick={()=>handleOnAgent()}
+                                >
                                     <Image src='/woman.png' alt="Hair Wash Icon"  width={40} height={40} className="w-14 h-14 m-3" />
                                     <div>
                                         <div className="font-semibold font-">Mirra</div>
