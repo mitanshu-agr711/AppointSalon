@@ -106,7 +106,7 @@ const Calendar = () => {
                                             if (day && greenDays.includes(day)) {
                                                 const selectedDate = currentDate.clone().date(day);
                                                 setEvent(selectedDate);
-                                                console.log("Selected date:", selectedDate);
+                                                // console.log("Selected date:", selectedDate);
                                             }
                                         }}
                                     >
@@ -126,7 +126,7 @@ const Calendar = () => {
                                 <div className="text-center p-4">
                                     <p className="text-lg font-semibold">Pick Slot: <span className="text-blue-400">{event.format("YYYY-MM-DD")}</span></p>
                                     <ul className="flex space-x-3 flex-wrap justify-center">
-                                        {["09:00 am", "10:00 am", "11:00 am", "12:00 pm", "01:00 pm"]
+                                        {["09:00 am", "10:00 am", "11:00 am", "12:00 pm", "01:00 pm","03:00 pm", "04:00 pm", "05:00 pm", "06:00 pm", "07:00 pm", "08:00 pm", "09:00 pm"]
                                             .sort(() => Math.random() - 0.5)
                                             .slice(0, 5)
                                             .map((time, index) => (
