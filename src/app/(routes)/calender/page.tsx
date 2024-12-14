@@ -1,23 +1,32 @@
 'use client';
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import moment from "moment";
 import Summary from "../bookyour/summary/page";
 import { useSearchParams } from 'next/navigation';
 
-
-
 const Calendar = () => {
-
     const searchParams = useSearchParams();
     const service = searchParams.get('service') || '';
-    console.log(service);
 
     const [currentDate, setCurrentDate] = useState(moment());
     const [event, setEvent] = useState<moment.Moment | null>(null);
+    const [greenDays, setGreenDays] = useState<number[]>([]);
 
     const minDate = moment("2024-12", "YYYY-MM");
     const maxDate = moment("2026-01", "YYYY-MM");
+
+    useEffect(() => {
+        generateGreenDays(); 
+    }, [currentDate]);
+
+    const generateGreenDays = () => {
+        const totalDays = currentDate.daysInMonth();
+        const randomDays = Array.from({ length: totalDays }, (_, i) => i + 1)
+            .sort(() => Math.random() - 0.5)
+            .slice(0, 6); 
+        setGreenDays(randomDays);
+    };
 
     const prevMonth = () => {
         const newDate = currentDate.clone().subtract(1, "month");
@@ -52,7 +61,7 @@ const Calendar = () => {
 
     return (
         <div className="flex items-center justify-center h-screen bg-gray-50">
-             <div className="flex space-x-6 w-full max-w-6xl p-4">
+            <div className="flex space-x-6 w-full max-w-6xl p-4">
 
                 <div className="flex flex-col flex-1 p-6 rounded-lg space-y-4">
                     <div className="w-1/2">
@@ -90,13 +99,12 @@ const Calendar = () => {
                                 {generateDays().map((day, index) => (
                                     <div
                                         key={index}
-                                        className={`w-12 h-12 flex items-center justify-center rounded-lg transition-all hover:bg-gray-300 ${day === currentDate.date() && currentDate.isSame(moment(), "month")
-                                            ? "bg-blue-400 text-white font-bold"
-                                            : "text-gray-600"
-                                            }`}
+                                        className={`w-12 h-12 flex items-center justify-center rounded-lg transition-all hover:bg-gray-300 
+                                            ${greenDays.includes(day) ? "bg-green-400 text-white font-bold" : "text-gray-600"}
+                                            ${day === currentDate.date() && currentDate.isSame(moment(), "month") ? "border-2 border-blue-500" : ""}`}
                                         onClick={() => {
-                                            if (day) {
-                                                const selectedDate = currentDate.clone().date(day)
+                                            if (day && greenDays.includes(day)) {
+                                                const selectedDate = currentDate.clone().date(day);
                                                 setEvent(selectedDate);
                                                 console.log("Selected date:", selectedDate);
                                             }
@@ -109,15 +117,16 @@ const Calendar = () => {
 
                             <div className="flex justify-around items-center text-xs p-2 bg-gray-200">
                                 <div className="flex items-center">
-                                    <span className="w-3 h-3 bg-blue-400 rounded-full inline-block mr-2"></span>
-                                    Available
+                                    <span className="w-3 h-3 bg-green-400 rounded-full inline-block mr-2"></span>
+                                    Available Days
                                 </div>
                             </div>
+
                             {event && (
                                 <div className="text-center p-4">
-                                    <p className="text-lg font-semibold">Pick Sloat: <span className="text-blue-400">{event.format("YYYY-MM-DD")}</span></p>
+                                    <p className="text-lg font-semibold">Pick Slot: <span className="text-blue-400">{event.format("YYYY-MM-DD")}</span></p>
                                     <ul className="flex space-x-3 flex-wrap justify-center">
-                                        {["09:00 am", "12:00 am ", "10:00 am", "13:00 pm", "16:00 pm", "18:00 pm", "14:00 pm", "19:00 pm", "11:00 am", "15:00 pm"]
+                                        {["09:00 am", "10:00 am", "11:00 am", "12:00 pm", "01:00 pm"]
                                             .sort(() => Math.random() - 0.5)
                                             .slice(0, 5)
                                             .map((time, index) => (
@@ -128,19 +137,17 @@ const Calendar = () => {
                                     </ul>
                                 </div>
                             )}
+                        </div>
+                    </div>
+                </div>
 
-                        </div>
+                <div className="w-1/2">
+                    <div className="flex flex-col flex-1 border border-gray-600 p-6 rounded-lg shadow-lg m-5">
+                        <Summary selectedServiceId={service} />
                     </div>
-                    </div>
-                    
-                    <div className="w-1/2">
-                        <div className="flex flex-col flex-1 border border-gray-600 p-6 rounded-lg shadow-lg m-5">
-                            <Summary selectedServiceId={service} />
-                        </div>
-                        </div>
+                </div>
             </div>
         </div>
-
     );
 };
 
