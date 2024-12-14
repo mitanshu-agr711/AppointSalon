@@ -3,9 +3,11 @@
 import React, { useState } from "react";
 import moment from "moment";
 
+
+
 const Calendar = () => {
   const [currentDate, setCurrentDate] = useState(moment());
-  const [event, setEvent] = useState<string | null>(null); 
+  const [event, setEvent] = useState<moment.Moment | null>(null);
 
   const minDate = moment("2024-12", "YYYY-MM");
   const maxDate = moment("2026-01", "YYYY-MM");
@@ -85,7 +87,7 @@ const Calendar = () => {
               }`}
               onClick={() => {
                 if (day) {
-                  const selectedDate = currentDate.clone().date(day).format("YYYY-MM-DD");
+                  const selectedDate = currentDate.clone().date(day)
                   setEvent(selectedDate);
                   console.log("Selected date:", selectedDate);
                 }
@@ -102,12 +104,22 @@ const Calendar = () => {
             Available
           </div>
         </div>
-
         {event && (
-          <div className="text-center p-4">
-            <p className="text-lg font-semibold">Selected Date: {event}</p>
-          </div>
-        )}
+  <div className="text-center p-4">
+    <p className="text-lg font-semibold">Pick Sloat: <span className="text-blue-400">{event.format("YYYY-MM-DD")}</span></p>
+    <ul className="flex space-x-3 flex-wrap justify-center">
+      {["09:00 am", "12:00 am ", "10:00 am", "13:00 pm", "16:00 pm", "18:00 pm", "14:00 pm", "19:00 pm", "11:00 am", "15:00 pm"]
+        .sort(() => Math.random() - 0.5)
+        .slice(0, 5)
+        .map((time, index) => (
+          <li key={index} className="bg-green-400 p-2 rounded-xl m-1">
+            {time}
+          </li>
+        ))}
+    </ul>
+  </div>
+)}
+
       </div>
     </div>
   );
