@@ -1,75 +1,85 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useAppointmentStore } from '@/store/appointmentStore';
+import { useEffect, useState } from 'react';
 
-type Service = {
-    _id: string;
-    service: string;
-    price: number;
-    select: string;
-};
+const Summary: React.FC = () => {
+  const [isClient, setIsClient] = useState(false);
 
-type SummaryProps = {
-    selectedServiceId: string; 
-};
+  
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
-const Summary: React.FC<SummaryProps> = ({ selectedServiceId }) => {
-    const [services, setServices] = useState<Service[]>([]); 
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await fetch('/api/user.get'); 
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                const result: Service[] = await response.json();
-                setServices(result);
-            } catch (err: any) {
-                setError(err.message || 'Something went wrong.');
-            } finally {
-                setLoading(false);
-            }
-        };
 
-        fetchData();
-    }, [selectedServiceId]); 
+  const prices = useAppointmentStore((state) => state.prices);
+  const servicesHair = useAppointmentStore((state) => state.servicesHair);
+  const agents = useAppointmentStore((state) => state.agents);
+  const slots = useAppointmentStore((state) => state.slots);
 
-    if (loading) {
-        return <div>Loading...</div>;
-    }
 
-    if (error) {
-        return <div className="text-red-500">Error: {error}</div>;
-    }
+  const totalPrice = prices.reduce((total, price) => total + (Number(price) || 0), 0);
 
-    
-    const selectedService = services.find((service) => service.select === selectedServiceId);
-    if (!selectedService) {
-        console.log("No matching service found for selected ID:", selectedServiceId);
-        return <div>No service found for the selected option.</div>;
-    }
-    return (
-        <div className="space-y-8">
-            <div className="text-4xl" >
-                Summary
+  if (!isClient) return null; 
+
+  return (
+    <div className="p-4">
+      <h1 className="text-xl font-bold mb-4">Summary</h1>
+      <div>
+        <h2 className="font-semibold">Services:</h2>
+        {servicesHair.length > 0 ? (
+          servicesHair.map((service, index) => (
+            <div key={index} className="ml-4">
+              {index + 1}. {service}
             </div>
-            <div className=" p-10 h-full  ">
-                <ul className="space-y-8 h-full">
-                    <li>
-                        <span>Service:</span>
-                        <span>{selectedService.service}</span>
-                    </li>
-                    <li >
-                        <span>Price:</span>
-                        <span>{`$${selectedService.price.toFixed(2)}`}</span>
-                    </li>
-                </ul>
+          ))
+        ) : (
+          <div className="ml-4">No services available.</div>
+        )}
+      </div>
+      <div className="mt-4">
+        <h2 className="font-semibold">Prices:</h2>
+        {prices.length > 0 ? (
+          prices.map((price, index) => (
+            <div key={index} className="ml-4">
+              {index + 1}. ${price}
             </div>
-        </div>
-    );
+          ))
+        ) : (
+          <div className="ml-4">No prices available.</div>
+        )}
+      </div>
+      <div className="mt-4">
+        <h2 className="font-semibold">Agents:</h2>
+        {agents.length > 0 ? (
+          agents.map((agent, index) => (
+            <div key={index} className="ml-4">
+              {index + 1}. {agent}
+            </div>
+          ))
+        ) : (
+          <div className="ml-4">No agents available.</div>
+        )}
+      </div>
+      <div className="mt-4">
+        <h2 className="font-semibold">Slots:</h2>
+        {slots.length > 0 ? (
+          slots.map((slot, index) => (
+            <div key={index} className="ml-4">
+              {index + 1}. {slot}
+            </div>
+          ))
+        ) : (
+          <div className="ml-4">No slots available.</div>
+        )}
+      </div>
+      <div className="mt-4">
+        <h2 className="font-semibold">Total Price:</h2>
+        <div className="ml-4">${totalPrice}</div>
+      </div>
+    </div>
+  );
 };
 
 export default Summary;

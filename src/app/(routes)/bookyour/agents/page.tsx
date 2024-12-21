@@ -8,10 +8,15 @@ import Summary from '../summary/page';
 
 import { useRouter } from 'next/navigation';
 
-
+import { useAppointmentStore } from '@/store/appointmentStore';
+interface Agent {
+   service: string;
+}
 
 export default function Agents() {
    const router = useRouter();
+   const addAgent = useAppointmentStore((state) => state.addAgent); 
+
 
     const searchParams = useSearchParams();
     const service = searchParams.get('service') || '';
@@ -20,8 +25,9 @@ export default function Agents() {
         
         router.push(`/bookyour?service=${service}`); 
     };
-    const handleOnAgent=()=>{
+    const handleOnAgent=({service}:Agent)=>{
         router.push(`/calender?service=${service}`); 
+        addAgent(service);
     }
 
     return (
@@ -55,7 +61,7 @@ export default function Agents() {
                             <ul className="space-x-4 flex">
 
                                 <li className=" space-x-4 outline outline-2 outline-slate-500 hover:outline-blue-500 p-4 rounded-lg w-2/3"
-                                 onClick={()=>handleOnAgent()}
+                                 onClick={()=>handleOnAgent({service:'Any Agent'})}
                                  >
                                     <Image src='/boycontacts.png' alt="Any Agent"  width={40} height={40} className="w-14 h-14 flex justify-center items-center m-3" />
 
@@ -65,7 +71,7 @@ export default function Agents() {
 
 
                                 <li className="items-center space-x-4 outline outline-2 outline-slate-500 hover:outline-blue-500 p-4 rounded-lg w-2/3"
-                                 onClick={()=>handleOnAgent()}
+                                 onClick={()=>handleOnAgent({service:'John'})}
                                 >
                                     <div><Image src='/young-man.png' alt="John Icon"  width={40} height={40} className="w-14 h-14 m-3" /></div>
                                     <div>
@@ -75,7 +81,7 @@ export default function Agents() {
 
 
                                 <li className=" items-center space-x-4 outline outline-2 outline-slate-500 hover:outline-blue-500 p-4 rounded-lg w-2/3"
-                                 onClick={()=>handleOnAgent()}
+                                 onClick={()=>handleOnAgent({   service:'Mirra'})}
                                 >
                                     <Image src='/woman.png' alt="Hair Wash Icon"  width={40} height={40} className="w-14 h-14 m-3" />
                                     <div>
@@ -88,9 +94,9 @@ export default function Agents() {
                         </div>
 
                         
-                        <div className="flex flex-col flex-1 border border-gray-600 p-6 rounded-lg shadow-lg m-5">
-                            <Summary  selectedServiceId={service}/>
-                        </div>
+                        {/* <div className="flex flex-col flex-1 border border-gray-600 p-6 rounded-lg shadow-lg m-5">
+                            <Summary/>
+                        </div> */}
                  
 
                     </div>

@@ -1,22 +1,40 @@
+'use client'
 import { create } from 'zustand';
 
-
 type AppointmentState = {
-  agent: string | null;
-  service: string | null;
-  slot: string | null;
-  setAgent: (agent: string | null) => void;
-  setService: (service: string | null) => void;
-  setSlot: (slot: string | null) => void;
+  agents: string[];
+  servicesHair: string[];
+  slots: string[];
+  prices: number[]; 
+  addAgent: (agent: string) => void;
+  addServiceHair: (service: string) => void;
+  addSlot: (slot: string) => void;
+  addPrice: (price: number) => void; 
+  removeAgent: (agent: string) => void;
+  removeServiceHair: (service: string) => void;
+  removeSlot: (slot: string) => void;
+  removePrice: (price: number) => void; 
 };
 
-const useAppointmentStore = create<AppointmentState>((set) => ({
-  agent: null,
-  service: null,
-  slot: null,
-  setAgent: (agent: string | null) => set({ agent }),
-  setService: (service: string | null ) => set({ service }),
-  setSlot: (slot: string| null ) => set({ slot }),
+export const useAppointmentStore = create<AppointmentState>((set) => ({
+  agents: [],
+  servicesHair: [],
+  slots: [],
+  prices: [], 
+  addAgent: (agent) => set((state) => ({ agents: [...state.agents, agent] })),
+  addServiceHair: (service) =>
+    set((state) => ({ servicesHair: [...state.servicesHair, service] })),
+  addSlot: (slot) => set((state) => ({ slots: [...state.slots, slot] })),
+  addPrice: (price) =>
+    set((state) => ({ prices: [...state.prices, price] })), 
+  removeAgent: (agent) =>
+    set((state) => ({ agents: state.agents.filter((a) => a !== agent) })),
+  removeServiceHair: (service) =>
+    set((state) => ({
+      servicesHair: state.servicesHair.filter((s) => s !== service),
+    })),
+  removeSlot: (slot) =>
+    set((state) => ({ slots: state.slots.filter((s) => s !== slot) })),
+  removePrice: (price) =>
+    set((state) => ({ prices: state.prices.filter((p) => p !== price) })), 
 }));
-
-export default useAppointmentStore;
