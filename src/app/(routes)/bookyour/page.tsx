@@ -1,6 +1,6 @@
 'use client';
 
-import Summary from './summary/page';
+import Summary from '@/summary/page';
 import Sidebar from './sidebar/page';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
@@ -66,7 +66,7 @@ export default function BookApp() {
         const selectedService = services.find((s) => s.name === service);
         if (selectedService) {
             setSelectedLabel(service);
-            router.push(`/bookyour/agents?service=${service}`);
+            router.push(`/bookyour/agents`);
             addServiceHair(service);
             addPrice(selectedService.price);
         }
@@ -118,11 +118,11 @@ export default function BookApp() {
                             ))}
                         </ul>
                     </div>
-                    {/* {selectedLabel && (
+                    {selectedLabel && (
                         <div className="flex flex-col flex-1 border border-gray-600 p-6 rounded-lg shadow-lg">
                             <Summary />
                         </div>
-                    )} */}
+                    )}
                 </div>
             </div>
         </div>

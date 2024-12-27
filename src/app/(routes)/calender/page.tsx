@@ -1,16 +1,19 @@
 'use client';
 import React, { useState, useEffect, useCallback } from "react";
 import moment from "moment";
-import Summary from "../bookyour/summary/page";
-import { useAppointmentStore } from "../../../store/appointmentStore";
+import Summary from "@/summary/page";
+import { useAppointmentStore } from "@/store/appointmentStore";
 
 const Calendar = () => {
     const addSlot = useAppointmentStore((state) => state.addSlot);
+    const addSummary = useAppointmentStore((state) => state.addSummary);
 
     const [currentDate, setCurrentDate] = useState(moment());
     const [selectedEvent, setSelectedEvent] = useState<moment.Moment | null>(null);
     const [availableDays, setAvailableDays] = useState<number[]>([]);
     const [timeSlots, setTimeSlots] = useState<string[]>([]);
+    const [hasAddedSummary, setHasAddedSummary] = useState(false);
+
 
     const minDate = moment("2024-12", "YYYY-MM");
     const maxDate = moment("2026-01", "YYYY-MM");
@@ -137,9 +140,15 @@ const Calendar = () => {
                                                 key={index}
                                                 className="bg-green-400 p-2 cursor-pointer rounded-xl m-1"
                                                 onClick={() => {
-                                                    const selectedSlot = `${selectedEvent.format("YYYY-MM-DD")} ${time}`;
-                                                    addSlot(selectedSlot);
-                                                    console.log("Selected slot:", selectedSlot);
+                                                   
+                                                    if (!hasAddedSummary) {
+                                                        const selectedSlot = `${selectedEvent.format("YYYY-MM-DD")} ${time}`;
+                                                        addSlot(selectedSlot);
+                                                        console.log("Selected slot:", selectedSlot);
+                            
+                                                        addSummary();
+                                                        setHasAddedSummary(true); 
+                                                      }
                                                 }}
                                             >
                                                 {time}

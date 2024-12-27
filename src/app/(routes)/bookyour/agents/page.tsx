@@ -1,10 +1,10 @@
 
 'use client';
 
-import { useSearchParams } from 'next/navigation';
+// import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 
-import Summary from '../summary/page';
+import Summary from '@/summary/page';
 
 import { useRouter } from 'next/navigation';
 
@@ -18,15 +18,15 @@ export default function Agents() {
    const addAgent = useAppointmentStore((state) => state.addAgent); 
 
 
-    const searchParams = useSearchParams();
-    const service = searchParams.get('service') || '';
+    // const searchParams = useSearchParams();
+    // const service = searchParams.get('service') || '';
     // console.log(service);
     const handleOnclick = () => {
         
-        router.push(`/bookyour?service=${service}`); 
+        router.push(`/bookyour`); 
     };
     const handleOnAgent=({service}:Agent)=>{
-        router.push(`/calender?service=${service}`); 
+        router.push(`/calender`); 
         addAgent(service);
     }
 
@@ -93,11 +93,9 @@ export default function Agents() {
                                 🔙Back</div>
                         </div>
 
-                        
-                        {/* <div className="flex flex-col flex-1 border border-gray-600 p-6 rounded-lg shadow-lg m-5">
+                        <div className="flex flex-col flex-1 border border-gray-600 p-6 rounded-lg shadow-lg m-5">
                             <Summary/>
-                        </div> */}
-                 
+                        </div>
 
                     </div>
                 </div>
