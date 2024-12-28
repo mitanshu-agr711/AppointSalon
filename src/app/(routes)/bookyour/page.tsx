@@ -3,7 +3,7 @@
 import Summary from '@/summary/page';
 import Sidebar from './sidebar/page';
 import Image from 'next/image';
-import { useState, useEffect } from 'react';
+// import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
 import { useAppointmentStore } from '@/store/appointmentStore';
@@ -37,45 +37,35 @@ const services: Service[] = [
 ];
 
 export default function BookApp() {
-    const [isClient, setIsClient] = useState(false);
+    // const [isClient, setIsClient] = useState(false);
 
-    useEffect(() => {
-        setIsClient(true); // Ensure we are on the client side before rendering dynamic content
-    }, []);
+    // useEffect(() => {
+    //     setIsClient(true); // Ensure we are on the client side before rendering dynamic content
+    // }, []);
 
-    // const { addPrice, addServiceHair } = useAppointmentStore((state) => ({
-    //     addPrice: state.addPrice,
-    //     addServiceHair: state.addServiceHair,
-    // }));
+    const searchParams = useSearchParams();
+    const selectedLabel = searchParams.get('service') === 'true';
+    
+    console.log(selectedLabel);
 
     const addPrice = useAppointmentStore((state) => state.addPrice);
     const addServiceHair = useAppointmentStore((state) => state.addServiceHair);
     
     const router = useRouter();
-    const [selectedLabel, setSelectedLabel] = useState<string | null>(null);
-    const searchParams = useSearchParams();
+   
 
-    useEffect(() => {
-        if (isClient) {
-            const service = searchParams.get('service');
-            setSelectedLabel(service || null);
-        }
-    }, [searchParams, isClient]);
+  
 
     const handleServiceClick = (service: string) => {
         const selectedService = services.find((s) => s.name === service);
         if (selectedService) {
-            setSelectedLabel(service);
             router.push(`/bookyour/agents`);
             addServiceHair(service);
             addPrice(selectedService.price);
         }
     };
 
-    if (!isClient) {
-        return null; // Prevent rendering on the server, wait until the client side is ready
-    }
-
+   
     return (
         <div className="flex h-screen">
             <div className="w-[14%] border border-gray-600">

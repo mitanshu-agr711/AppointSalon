@@ -18,9 +18,9 @@ const Summary: React.FC = () => {
   if (!isClient) return null;
 
   const handleOnClick = () => {
-    // addSummary();
-    router.push('/bookyour'); 
-  };
+    const b = true; 
+    router.push(`/bookyour?service=${b}`);
+};
 
 
   const totalCumulativePrice = summary.reduce(
