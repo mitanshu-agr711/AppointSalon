@@ -3,10 +3,10 @@
 import Summary from '@/summary/page';
 import Sidebar from './sidebar/page';
 import Image from 'next/image';
-// import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
 import { useAppointmentStore } from '@/store/appointmentStore';
+import { useState } from 'react';
 
 type Service = {
     name: string;
@@ -37,24 +37,15 @@ const services: Service[] = [
 ];
 
 export default function BookApp() {
-    // const [isClient, setIsClient] = useState(false);
-
-    // useEffect(() => {
-    //     setIsClient(true); // Ensure we are on the client side before rendering dynamic content
-    // }, []);
-
     const searchParams = useSearchParams();
     const selectedLabel = searchParams.get('service') === 'true';
-    
-    console.log(selectedLabel);
 
     const addPrice = useAppointmentStore((state) => state.addPrice);
     const addServiceHair = useAppointmentStore((state) => state.addServiceHair);
-    
-    const router = useRouter();
-   
 
-  
+    const [cartVisible, setCartVisible] = useState(false);
+
+    const router = useRouter();
 
     const handleServiceClick = (service: string) => {
         const selectedService = services.find((s) => s.name === service);
@@ -65,7 +56,8 @@ export default function BookApp() {
         }
     };
 
-   
+    const toggleCart = () => setCartVisible((prev) => !prev);
+
     return (
         <div className="flex h-screen">
             <div className="w-[14%] border border-gray-600">
@@ -73,8 +65,8 @@ export default function BookApp() {
             </div>
             <div className="flex-grow p-6 flex justify-center items-center">
                 <div className="flex space-x-6 w-full max-w-6xl">
-                    <div className="flex flex-col flex-1 border border-gray-600 p-6 rounded-lg shadow-lg space-y-4">
-                        <div className="text-lg">
+                    <div className="hidden md:block flex flex-col flex-1 border border-gray-600 p-6 rounded-lg shadow-lg space-y-4">
+                        <div className="text-lg ">
                             <div className="font-bold">Service Selection</div>
                             <span className="text-gray-600">
                                 Please select a service for which you want to schedule an appointment
@@ -109,8 +101,26 @@ export default function BookApp() {
                         </ul>
                     </div>
                     {selectedLabel && (
-                        <div className="flex flex-col flex-1 border border-gray-600 p-6 rounded-lg shadow-lg">
-                            <Summary />
+                        <div className="relative">
+                            <Image
+                                src="/cart.png"
+                                alt="cart"
+                                width={40}
+                                height={40}
+                                className="cursor-pointer"
+                                onClick={toggleCart}
+                            />
+                            {cartVisible && (
+                                <div className="absolute right-0 top-10 bg-white border border-gray-600 p-6 rounded-lg shadow-lg z-50 w-64">
+                                    <button
+                                        className="text-right text-gray-500 hover:text-red-500"
+                                        onClick={toggleCart}
+                                    >
+                                        Close
+                                    </button>
+                                    <Summary />
+                                </div>
+                            )}
                         </div>
                     )}
                 </div>
