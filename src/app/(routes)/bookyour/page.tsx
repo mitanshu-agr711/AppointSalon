@@ -1,7 +1,7 @@
 'use client';
 
 import Summary from '@/summary/page';
-import Sidebar from './sidebar/page';
+import Sidebar from '../../../sidebar/page';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
@@ -59,72 +59,84 @@ export default function BookApp() {
     const toggleCart = () => setCartVisible((prev) => !prev);
 
     return (
-        <div className="flex h-screen">
-            <div className="w-[14%] border border-gray-600">
+        <>
+            <div className="flex-row h-[100%] border border-gray-600  md:w-[20%] sm:hidden" >
                 <Sidebar />
             </div>
-            <div className="flex-grow p-6 flex justify-center items-center">
-                <div className="flex space-x-6 w-full max-w-6xl">
-                    <div className="hidden md:block flex flex-col flex-1 border border-gray-600 p-6 rounded-lg shadow-lg space-y-4">
-                        <div className="text-lg ">
-                            <div className="font-bold">Service Selection</div>
-                            <span className="text-gray-600">
-                                Please select a service for which you want to schedule an appointment
-                            </span>
+            
+            <div className="flex h-screen">
+
+                <div className="hidden sm:block md:w-[20%] w-auto h-full mr-3">
+                    <Sidebar />
+                </div>
+
+                {/* <div className="hidden sm:block w-[40%] border h-[100%] border-gray-600  md:w-[30%]" >
+                <Sidebar />
+            </div> */}
+                <div className="flex-grow p-6 flex justify-center items-center">
+                    <div className="flex space-x-6 w-full max-w-6xl">
+                        <div className="hidden md:block flex flex-col flex-1 border border-gray-600 p-6 rounded-lg shadow-lg space-y-4 ">
+                            <div className="text-lg ">
+                                <div className="font-bold">Service Selection</div>
+                                <span className="text-gray-600">
+                                    Please select a service for which you want to schedule an appointment
+                                </span>
+                            </div>
+                            <div className="mt-auto">
+                                ContactUs: <span className="text-blue-500">+91 999xxxxx</span>
+                            </div>
                         </div>
-                        <div className="mt-auto">
-                            ContactUs: <span className="text-blue-500">+91 999xxxxx</span>
-                        </div>
-                    </div>
-                    <div className="flex flex-col flex-1 border border-gray-600 p-6 rounded-lg shadow-lg space-y-4">
-                        <div className="text-2xl text-center">Available Services</div>
-                        <ul className="space-y-4">
-                            {services.map((service) => (
-                                <li
-                                    key={service.name}
-                                    className="flex items-center space-x-4 border p-2 hover:border-blue-500 cursor-pointer rounded-md shadow-sm"
-                                    onClick={() => handleServiceClick(service.name)}
-                                >
-                                    <Image
-                                        src={service.icon}
-                                        alt={`${service.name} Icon`}
-                                        width={40}
-                                        height={40}
-                                        className="w-10 h-10"
-                                    />
-                                    <div>
-                                        <div>{service.name}</div>
-                                        <div className="text-sm text-gray-600">{service.description}</div>
-                                    </div>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                    {selectedLabel && (
-                        <div className="relative">
-                            <Image
-                                src="/cart.png"
-                                alt="cart"
-                                width={40}
-                                height={40}
-                                className="cursor-pointer"
-                                onClick={toggleCart}
-                            />
-                            {cartVisible && (
-                                <div className="absolute right-0 top-10 bg-white border border-gray-600 p-6 rounded-lg shadow-lg z-50 w-64">
-                                    <button
-                                        className="text-right text-gray-500 hover:text-red-500"
-                                        onClick={toggleCart}
+                        <div className="flex flex-col flex-1 border border-gray-600 p-6 rounded-lg shadow-lg space-y-4">
+                            <div className="text-2xl text-center">Available Services</div>
+                            <ul className="space-y-4">
+                                {services.map((service) => (
+                                    <li
+                                        key={service.name}
+                                        className="flex items-center space-x-4 border p-2 hover:border-blue-500 cursor-pointer rounded-md shadow-sm"
+                                        onClick={() => handleServiceClick(service.name)}
                                     >
-                                        Close
-                                    </button>
-                                    <Summary />
-                                </div>
-                            )}
+                                        <Image
+                                            src={service.icon}
+                                            alt={`${service.name} Icon`}
+                                            width={40}
+                                            height={40}
+                                            className="w-10 h-10"
+                                        />
+                                        <div>
+                                            <div>{service.name}</div>
+                                            <div className="text-sm text-gray-600">{service.description}</div>
+                                        </div>
+                                    </li>
+                                ))}
+                            </ul>
                         </div>
-                    )}
+                        {selectedLabel && (
+                            <div className="relative">
+                                <Image
+                                    src="/cart.png"
+                                    alt="cart"
+                                    width={40}
+                                    height={40}
+                                    className="cursor-pointer"
+                                    onClick={toggleCart}
+                                />
+                                {cartVisible && (
+                                    <div className="absolute right-0 top-10 bg-white border border-gray-600 p-6 rounded-lg shadow-lg z-50 w-64">
+                                        <button
+                                            className="text-right text-gray-500 hover:text-red-500"
+                                            onClick={toggleCart}
+                                        >
+                                            Close
+                                        </button>
+                                        <Summary />
+                                    </div>
+                                )}
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
     );
+
 }
