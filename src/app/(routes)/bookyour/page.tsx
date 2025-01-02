@@ -60,10 +60,10 @@ export default function BookApp() {
 
     return (
         <>
-            <div className="flex-row h-[100%] border border-gray-600  md:w-[20%] sm:hidden" >
+            <div className="flex-row h-[100%] border border-gray-600  md:w-[20%] sm:hidden m-5" >
                 <Sidebar />
             </div>
-            
+
             <div className="flex h-screen">
 
                 <div className="hidden sm:block md:w-[20%] w-auto h-full mr-3">

@@ -16,13 +16,15 @@ export default function Sidebar() {
 
     const handleSelectionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectedElement(event.target.value);
+        console.log("Selected from dropdown:", event.target.value);
     };
 
     return (
         <div>
+           
             <div className="p-4 sm:hidden">
                 <div className="mb-4">
-                    <label htmlFor="menu-dropdown" className="  text-gray-700 font-bold mb-2">
+                    <label htmlFor="menu-dropdown" className="text-gray-700 font-bold mb-2">
                         Pick Element
                     </label>
                     <select
@@ -40,7 +42,8 @@ export default function Sidebar() {
                 </div>
             </div>
 
-            <div className="w-[80%] h-[100%] m-3  hidden sm:block">
+          
+            <div className="w-[80%] h-[100%] m-3 hidden sm:block">
                 <div className="text-gray-700 flex justify-center items-center font-bold">
                     Pick an Element
                 </div>
@@ -49,11 +52,15 @@ export default function Sidebar() {
                     {menuItems.map((item) => (
                         <li
                             key={item}
-                            className={`p-2 rounded-lg cursor-pointer ${selectedElement === item
+                            className={`p-2 rounded-lg cursor-pointer ${
+                                selectedElement === item
                                     ? "bg-blue-500 text-white"
                                     : "hover:bg-gray-200 text-gray-700"
-                                }`}
-                            onClick={() => setSelectedElement(item)}
+                            }`}
+                            onClick={() => {
+                                setSelectedElement(item);
+                                console.log("Clicked on:", item);
+                            }}
                         >
                             {item}
                         </li>

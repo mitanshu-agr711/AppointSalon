@@ -7,6 +7,7 @@ import Image from 'next/image';
 import Summary from '@/summary/page';
 
 import { useRouter } from 'next/navigation';
+import Sidebar from '@/sidebar/page';
 
 import { useAppointmentStore } from '@/store/appointmentStore';
 interface Agent {
@@ -32,7 +33,14 @@ export default function Agents() {
 
     return (
         <>
+         <div className="flex-row h-[100%] border border-gray-600  md:w-[20%] sm:hidden" >
+                        <Sidebar />
+                    </div>
+                    
             <div className="flex items-center justify-center h-screen">
+                 <div className="hidden sm:block md:w-[20%] w-auto h-full mr-3">
+                                    <Sidebar />
+                                </div>
 
                 <div className="justify-center items-center border border-slate-800 p-4 w-auto h-auto divide-y divide-dashed hover:divide-solid">
 
