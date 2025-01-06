@@ -17,6 +17,8 @@ export default function Agents() {
         email: "",
         password: "",
     });
+    const [cartVisible, setCartVisible] = useState(false);
+    const toggleCart = () => setCartVisible((prev) => !prev);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -24,31 +26,34 @@ export default function Agents() {
     };
 
     const handleOnClick = () => {
-    
+        if (!formData.email || !formData.password || (selectedElement === "New Customer" && (!formData.firstName || !formData.lastName))) {
+            alert("Please fill all required fields!");
+            return;
+        }
         router.push(`/bookyour`);
     };
 
-
     return (
         <>
-            <div className="flex-row h-[100%] border border-gray-600 md:w-[20%] sm:hidden">
+            <div className="flex-row h-[100%] border border-gray-600 md:w-[20%] sm:hidden shadow-lg">
                 <Sidebar />
             </div>
 
             <div className="flex items-center justify-center h-screen">
-                <div className="hidden sm:block md:w-[20%] w-auto h-full mr-3">
-                    <Sidebar />
+                <div className='w-1/2 md:w-3/12'>
+                    <div className="absolute hidden sm:block md:w-[20%] w-auto h-full mr-3 inset-y-0 left-0 shadow-lg">
+                        <Sidebar />
+                    </div>
                 </div>
-
-                <div className="justify-center items-center border border-slate-800 p-4 w-auto h-auto divide-y divide-dashed hover:divide-solid">
-                    <div className="flex w-full h-full justify-between">
-                        <div className="w-1/2">
+                <div className=" border p-4 justify-center items-center flex   sm:w-4/5 h-4/5 md:w-3/5 md:h-4/5 divide-y divide-dashed hover:divide-solid shadow-lg">
+                    <div className="flex w-full h-full  ">
+                        <div className="w-1/2 hidden md:block">
                             <div className="h-full justify-center items-center flex-col flex space-y-8">
                                 <div className="text-lg mt-4 w-3/4">
                                     <div className="justify-center items-center flex">
                                         <Image src="/contact.png" alt="Contact Icon" width={40} height={40} />
                                     </div>
-                                    <div className="font-bold flex justify-center text-2xl items-center">
+                                    <div className="font-bold flex text-2xl m-2">
                                         Enter Your Information
                                     </div>
                                     <span className="text-gray-600 w-1/6">
@@ -60,9 +65,9 @@ export default function Agents() {
                                 </div>
                             </div>
                         </div>
-
-                        <div className="w-1/2">
-                            <div className="flex justify-center items-center m-4 mb-6 text-3xl">
+                      <div className='md:w-1/2 flex h-4/5'>
+                        <div className=" p-3 rounded-lg">
+                            <div className="flex justify-center items-center mb-6 text-3xl">
                                 Customer Information
                             </div>
                             <ul className="flex justify-center items-center space-x-4 text-1xl">
@@ -125,14 +130,30 @@ export default function Agents() {
                                     Submit
                                 </button>
                             </div>
-                            {/* <div className="mt-6 cursor-pointer" onClick={() => router.back()}>
-                                🔙Back
-                            </div> */}
                         </div>
 
-                        <div className="flex flex-col flex-1 border border-gray-600 p-6 rounded-lg shadow-lg m-5">
-                            <Summary />
-                        </div>
+                            <div className="relative">
+                                <Image
+                                    src="/cart.png"
+                                    alt="cart"
+                                    width={70}
+                                    height={70}
+                                    className="cursor-pointer"
+                                    onClick={toggleCart}
+                                />
+                                {cartVisible && (
+                                    <div className="absolute right-0 top-10 bg-white border border-gray-600 p-6 rounded-lg shadow-lg z-50 w-64">
+                                        <button
+                                            className="text-right text-gray-500 hover:text-red-500"
+                                            onClick={toggleCart}
+                                        >
+                                            Close
+                                        </button>
+                                        <Summary />
+                                    </div>
+                                )}
+                            </div>
+                            </div>
                     </div>
                 </div>
             </div>

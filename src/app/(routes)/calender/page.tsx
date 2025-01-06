@@ -76,7 +76,7 @@ const Calendar = () => {
     return (
         <div className="flex items-center justify-center h-screen bg-gray-50">
             <div className="flex space-x-6 w-full max-w-6xl p-4">
-                {/* Calendar Section */}
+             
                 <div className="flex flex-col flex-1 p-6 rounded-lg space-y-4">
                     <div className="w-1/2">
                         <div className="w-[420px] shadow-lg rounded-lg overflow-hidden bg-white space-y-3">
@@ -161,7 +161,6 @@ const Calendar = () => {
                     </div>
                 </div>
 
-                {/* Summary Section */}
                 <div className="w-1/2">
                     <div className="flex flex-col flex-1 border border-gray-600 p-6 rounded-lg shadow-lg m-5">
                         <Summary />
