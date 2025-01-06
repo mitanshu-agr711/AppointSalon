@@ -1,15 +1,15 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IUser extends Document {
-  first: string;
-  second: string;
+  firstName: string;
+  secondName: string;
   email: string;
   password: string;
 }
 
 const UserSchema: Schema = new mongoose.Schema({
-  first: { type: String, required: true },
-  second: { type: String, required: true },
+  firstName: { type: String, required: true },
+  secondName: { type: String, required: true },
   email: {
     type: String,
     required: true,
