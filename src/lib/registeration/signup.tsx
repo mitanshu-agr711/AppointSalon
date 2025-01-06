@@ -1,6 +1,5 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
-
 export interface IUser extends Document {
   first: string;
   second: string;
@@ -11,13 +10,23 @@ export interface IUser extends Document {
 const UserSchema: Schema = new mongoose.Schema({
   first: { type: String, required: true },
   second: { type: String, required: true },
-    email: {
-         type: String, required: true
-         },
-  password: { type: String, required: true },
+  email: {
+    type: String,
+    required: true,
+    validate: {
+      validator: function (value: string) {
 
+        return /^[a-zA-Z0-9._%+-]+@gmail\.com$/.test(value);
+      },
+      message: "Only Gmail addresses are allowed!",
+    },
+  },
+  password: {
+    type: String,
+    required: true,
+    minlength: [8, "Password must be at least 8 characters long!"],
+  },
 });
-// UserSchema.index({ select: 1,service: 1, price: 1 }, { unique: true });
 
-export const Sign = mongoose.models.User || mongoose.model<IUser>('Sign', UserSchema);
 
+export const Sign = mongoose.models.Sign || mongoose.model<IUser>('Sign', UserSchema);
