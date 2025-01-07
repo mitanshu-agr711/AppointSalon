@@ -1,5 +1,5 @@
 import mongoose, { Schema, Document } from 'mongoose';
-
+// import bcrypt from 'bcrypt';
 export interface IUser extends Document {
   first: string;
   second: string;
@@ -27,5 +27,8 @@ const UserSchema: Schema = new mongoose.Schema({
   },
 });
 
+// UserSchema.methods.comparePassword = async function (candidatePassword: string): Promise<boolean> {
+//     return bcrypt.compare(candidatePassword, this.password);
+//   };
 
 export const Login = mongoose.models.Sign || mongoose.model<IUser>('Login', UserSchema);

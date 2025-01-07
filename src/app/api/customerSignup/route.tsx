@@ -7,7 +7,11 @@ export async function POST(req: Request) {
         const body = await req.json();
         const {firstName,secondName,email,password} = body;
         if (!firstName || !secondName || !email || !password) {
-            return NextResponse.json({ error: 'incomplete registeration' }, { status: 400 });
+            return NextResponse.json({ error: 'incomplete details registeration' }, { status: 400 });
+        }
+        const existUser=await Sign.findOne({email});
+        if(existUser){
+            return NextResponse.json({ error: 'User already exist' }, { status: 400 });
         }
         const user = new Sign({ firstName,secondName,email,password});
         await user.save();
