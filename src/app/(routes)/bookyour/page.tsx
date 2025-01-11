@@ -66,7 +66,7 @@ export default function BookApp() {
 
             <div className="flex h-screen">
 
-                <div className="hidden sm:block md:w-[20%] w-auto h-full mr-3">
+                <div className="hidden sm:block md:w-[20%] w-auto h-full mr-3 shadow-lg">
                     <Sidebar />
                 </div>
 

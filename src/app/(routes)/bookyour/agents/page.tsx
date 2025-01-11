@@ -38,7 +38,7 @@ export default function Agents() {
                     </div>
                     
             <div className="flex items-center justify-center h-screen">
-                 <div className="hidden sm:block md:w-[20%] w-auto h-full mr-3">
+                 <div className="hidden sm:block md:w-[20%] w-auto h-full mr-3 shadow-lg">
                                     <Sidebar />
                                 </div>
 

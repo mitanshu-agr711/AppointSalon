@@ -10,7 +10,7 @@ export async function POST(req: Request) {
         const body = await req.json();
         const {  email, password } = body;
         if ( !email || !password) {
-            return NextResponse.json({ error: 'incomplete registeration' }, { status: 400 });
+            return NextResponse.json({ error: 'user not found' }, { status: 404 });
         }
        const user = await Login.findOne({ email });
        if (!user) {

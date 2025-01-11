@@ -7,17 +7,23 @@ export async function POST(req: Request) {
         const body = await req.json();
         const { firstName, secondName, email, password } = body;
         if (!firstName || !secondName || !email || !password) {
-            return NextResponse.json({ error: 'incomplete details registeration' }, { status: 400 });
+            return NextResponse.json({ error: 'complete fill details' }, { status: 400 });
         }
         const existUser = await Sign.findOne({ email });
         if (existUser) {
-            return NextResponse.json({ error: 'User already exist' }, { status: 400 });
+            return NextResponse.json({ error: 'User already exist' }, { status: 401 });
         }
         const user = new Sign({ firstName, secondName, email, password });
         await user.save();
 
         return NextResponse.json({ message: 'User SignUp successfully',  user: { firstName, secondName, email }}, { status: 201 });
     } catch (error) {
+        if (error.name === 'ValidationError') {
+            return NextResponse.json({
+                error: 'Validation failed',
+                details: error.errors,
+            }, { status: 400 });
+        }
         console.error('Error saving user:', error);
         return NextResponse.json({ error: 'Internal Server Error', details: error.message }, { status: 500 });
     }

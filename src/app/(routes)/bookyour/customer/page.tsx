@@ -26,37 +26,40 @@ export default function CustomerInformation() {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
-    
+
 
     const handleOnClick = async () => {
-        if (!formData.email || !formData.password || (selectedElement === "New Customer" && (!formData.firstName || !formData.secondName))) {
-            alert("Please fill all required fields!");
+        if (
+            !formData.email ||
+            !formData.password ||
+            (selectedElement === "New Customer" && (!formData.firstName || !formData.secondName))
+        ) {
+            // alert("Please fill all required fields!");
             return;
         }
-        // const sign="api/customerSignup";
+
+        const api = selectedElement === "New Customer" ? "/api/customerSignup" : "/api/login";
+
         try {
-            console.log("formData",formData);
-            const response = await axios.post("/api/customerSignup",formData);
-            console.log(response.data);
-        } 
-            catch (error) {
-                // Log the entire error object to understand what went wrong
-                // if (error.response) {
-                //     // Server responded with a status other than 2xx
-                //     console.error('Response Error:', error.response.data);
-                //     console.error('Response Status:', error.response.status);
-                //     console.error('Response Headers:', error.response.headers);
-                // } else if (error.request) {
-                //     // No response was received
-                //     console.error('Request Error:', error.request);
-                // } else {
-                    // Something happened in setting up the request
-                    console.error('Error Message:', error.message);
-                // }
-                alert("Something went wrong, please try again later.");
+            const { data } = await axios.post(api, formData);
+            const st= data.status;
+            console.log(data);
+            console.log("status",st);
+            if(st === 201) {
+                alert("User SignUp successfully");
             }
-        
-        // router.push(`/bookyour`);
+            else if(st === 400) {
+                alert("Validation failed");
+            }
+            else if(st === 401) {
+                alert("User already exist");
+            }
+            else {
+                // alert("Internal Server Error");
+        } }catch (error)  {
+                console.error("Unexpected Error:", error);
+                // alert("Unexpected error occurred. Please try again.");
+        }
     };
 
     return (
@@ -71,7 +74,7 @@ export default function CustomerInformation() {
                         <Sidebar />
                     </div>
                 </div>
-                <div className="justify-center items-center border p-4 w-auto h-auto md:w-3/5 md:h-3/5 divide-y divide-dashed hover:divide-solid shadow-lg">
+                <div className="justify-center items-center border p-4 w-auto h-auto md:w-3/5 md:h-4/5 divide-y divide-dashed hover:divide-solid shadow-lg">
                     <div className="flex w-full h-full justify-between">
                         <div className="w-1/2 hidden md:block">
                             <div className="h-full justify-center items-center flex-col flex space-y-8">
@@ -92,7 +95,7 @@ export default function CustomerInformation() {
                             </div>
                         </div>
 
-                        <div className="w-1/2 shadow-lg p-6 rounded-lg">
+                        <div className="w-1/2 shadow-lg  p-6 rounded-lg">
                             <div className="flex justify-center items-center m-4 mb-6 text-3xl">
                                 Customer Information
                             </div>
@@ -100,11 +103,10 @@ export default function CustomerInformation() {
                                 {customer.map((item) => (
                                     <li
                                         key={item}
-                                        className={`p-2 rounded-lg cursor-pointer ${
-                                            selectedElement === item
-                                                ? "bg-blue-500 text-white"
-                                                : "hover:bg-gray-200 text-gray-700"
-                                        }`}
+                                        className={`p-2 rounded-lg cursor-pointer ${selectedElement === item
+                                            ? "bg-blue-500 text-white"
+                                            : "hover:bg-gray-200 text-gray-700"
+                                            }`}
                                         onClick={() => setSelectedElement(item)}
                                     >
                                         {item}
@@ -158,28 +160,28 @@ export default function CustomerInformation() {
                             </div>
                         </div>
 
-                            <div className="relative">
-                                <Image
-                                    src="/cart.png"
-                                    alt="cart"
-                                    width={40}
-                                    height={40}
-                                    className="cursor-pointer"
-                                    onClick={toggleCart}
-                                />
-                                {cartVisible && (
-                                    <div className="absolute right-0 top-10 bg-white border border-gray-600 p-6 rounded-lg shadow-lg z-50 w-64">
-                                        <button
-                                            className="text-right text-gray-500 hover:text-red-500"
-                                            onClick={toggleCart}
-                                        >
-                                            Close
-                                        </button>
-                                        <Summary />
-                                    </div>
-                                )}
-                            </div>
-            
+                        <div className="relative">
+                            <Image
+                                src="/cart.png"
+                                alt="cart"
+                                width={40}
+                                height={40}
+                                className="cursor-pointer"
+                                onClick={toggleCart}
+                            />
+                            {cartVisible && (
+                                <div className="absolute right-0 top-10 bg-white border border-gray-600 p-6 rounded-lg shadow-lg z-50 w-64">
+                                    <button
+                                        className="text-right text-gray-500 hover:text-red-500"
+                                        onClick={toggleCart}
+                                    >
+                                        Close
+                                    </button>
+                                    <Summary />
+                                </div>
+                            )}
+                        </div>
+
                     </div>
                 </div>
             </div>
