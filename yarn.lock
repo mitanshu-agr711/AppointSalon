@@ -1355,6 +1355,13 @@
   dependencies:
     undici-types "~6.19.2"
 
+"@types/paytmchecksum@^1.5.0":
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/@types/paytmchecksum/-/paytmchecksum-1.5.0.tgz#0c5c7e425899c1ab633286a619ba7e952ecdd724"
+  integrity sha512-BSHZQZGZylLUUoFCB85ijun2a7C9c9Z4BVsADRWazh7Aay/bYU3NP/qRTepfbf2icNZPk+IAOy8v9GR0AUs9SQ==
+  dependencies:
+    "@types/node" "*"
+
 "@types/prop-types@*":
   version "15.7.14"
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.14.tgz#1433419d73b2a7ebfc6918dcefd2ec0d5cd698f2"
@@ -3715,6 +3722,11 @@ path-type@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/path-type/-/path-type-4.0.0.tgz#84ed01c0a7ba380afe09d90a8c180dcd9d03043b"
   integrity sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==
+
+paytmchecksum@^1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/paytmchecksum/-/paytmchecksum-1.5.1.tgz#54019b06b9c01279680c8a0625fe08a90ef4d8ae"
+  integrity sha512-RnimtEcnP3b7FiakPYkyO416UubaUflG5e2HlM2UYhryZ9wXwoRZ5k8XEK4wxaK+d7qIzWDMFUo1LICgaU+J0A==
 
 picocolors@^1.0.0, picocolors@^1.1.0, picocolors@^1.1.1:
   version "1.1.1"
