@@ -6,29 +6,41 @@ import { useRouter } from 'next/navigation';
 
 const Summary: React.FC = () => {
   const router = useRouter();
+  
+  
   const [isClient, setIsClient] = useState(false);
 
   const summary = useAppointmentStore((state) => state.summary);
+  const setTotalPrice = useAppointmentStore((state) => state.setTotalPrice);
 
+  
   useEffect(() => {
     setIsClient(true);
   }, []);
 
-  if (!isClient) return null;
-
-  const handleOnClick = () => {
-    const b = true; 
-    router.push(`/bookyour?service=${b}`);
-  };
-
-  const handleCheckout = () => {
-    router.push(`/bookyour/customer`);
-  };
-
+  
   const totalCumulativePrice = summary.reduce(
     (total, entry) => total + (entry.totalPrice || 0),
     0
   );
+
+  
+  useEffect(() => {
+    if (isClient) {
+      setTotalPrice(totalCumulativePrice);
+    }
+  }, [isClient, totalCumulativePrice, setTotalPrice]);
+
+  // Handle clicking to navigate
+  const handleOnClick = () => {
+    const b = true;
+    router.push(`/bookyour?service=${b}`);
+  };
+
+  // Handle checkout navigation
+  const handleCheckout = () => {
+    router.push(`/bookyour/customer`);
+  };
 
   return (
     <div className="p-4 gap-y-4">

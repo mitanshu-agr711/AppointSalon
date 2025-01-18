@@ -1362,6 +1362,11 @@
   dependencies:
     "@types/node" "*"
 
+"@types/payu-emea-sdk@^1.0.10":
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/@types/payu-emea-sdk/-/payu-emea-sdk-1.0.10.tgz#4e4e1b07cb541b03f12e9212794feb08e257c662"
+  integrity sha512-rH96fpQ8TDRF9RdKujMbRSpZkCp5vc+HSvnrm1tWlAzzd0SRMJd5h0bk+//fUVcn3tVM39dlhMWc6MBpv70YlA==
+
 "@types/prop-types@*":
   version "15.7.14"
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.14.tgz#1433419d73b2a7ebfc6918dcefd2ec0d5cd698f2"
@@ -1684,7 +1689,7 @@ axe-core@^4.10.0:
   resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.10.2.tgz#85228e3e1d8b8532a27659b332e39b7fa0e022df"
   integrity sha512-RE3mdQ7P3FRSe7eqCWoeQ/Z9QXrtniSjp1wUjt5nRC3WIpz5rSCve6o3fsZ2aCpJtrZjSZgjwXAoTO5k4tEI0w==
 
-axios@^1.7.9:
+axios@^1.6.7, axios@^1.7.9:
   version "1.7.9"
   resolved "https://registry.yarnpkg.com/axios/-/axios-1.7.9.tgz#d7d071380c132a24accda1b2cfc1535b79ec650a"
   integrity sha512-LhLcE7Hbiryz8oMDdDptSrWowmB4Bl6RCt6sIJKpRB4XtVf0iEgewX3au/pJqm+Py1kCASkb/FFKjxQaLtxJvw==
@@ -3170,6 +3175,11 @@ jiti@^1.21.6:
   resolved "https://registry.yarnpkg.com/jiti/-/jiti-1.21.6.tgz#6c7f7398dd4b3142767f9a168af2f317a428d268"
   integrity sha512-2yTgeWTWzMWkHu6Jp9NKgePDaYHbntiwvYuuJLbbN9vl7DC9DvXKOB2BC3ZZ92D3cvV/aflH0osDfwpHepQ53w==
 
+js-sha512@^0.9.0:
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/js-sha512/-/js-sha512-0.9.0.tgz#ed569aa1e4bdaf0b83363c29db1ab87b1192d9ae"
+  integrity sha512-mirki9WS/SUahm+1TbAPkqvbCiCfOAAsyXeHxK1UkullnJVVqoJG2pL9ObvT05CN+tM7fxhfYm0NbXn+1hWoZg==
+
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
@@ -3723,10 +3733,22 @@ path-type@^4.0.0:
   resolved "https://registry.yarnpkg.com/path-type/-/path-type-4.0.0.tgz#84ed01c0a7ba380afe09d90a8c180dcd9d03043b"
   integrity sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==
 
+paystack-sdk@^2.5.19:
+  version "2.5.19"
+  resolved "https://registry.yarnpkg.com/paystack-sdk/-/paystack-sdk-2.5.19.tgz#4998895a077b3b087f9bd0792ad489d35a2e55e9"
+  integrity sha512-C1PW+inggAGcOD6EvFnldA+fXZbwZnXZIiOFOx8QYQcyyoqr6KcmxawTFVr32y08ykHHBHmvingjqN681Zp/yQ==
+  dependencies:
+    axios "^1.6.7"
+
 paytmchecksum@^1.5.1:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/paytmchecksum/-/paytmchecksum-1.5.1.tgz#54019b06b9c01279680c8a0625fe08a90ef4d8ae"
   integrity sha512-RnimtEcnP3b7FiakPYkyO416UubaUflG5e2HlM2UYhryZ9wXwoRZ5k8XEK4wxaK+d7qIzWDMFUo1LICgaU+J0A==
+
+payu-websdk@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/payu-websdk/-/payu-websdk-1.2.0.tgz#226cfe3a4b02ec783e3eda6ec0849d05141110a1"
+  integrity sha512-91K5PdTD9HiU1MPlloyfyVJxvHjUVNwwzv62HqBfz7tSUSyZBtH3dvEjIPQFHU/jiq0hCBVjfFlzmPlMY2dtWw==
 
 picocolors@^1.0.0, picocolors@^1.1.0, picocolors@^1.1.1:
   version "1.1.1"
@@ -4622,6 +4644,11 @@ util-deprecate@^1.0.1, util-deprecate@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/util-deprecate/-/util-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf"
   integrity sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==
+
+uuid@^11.0.5:
+  version "11.0.5"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-11.0.5.tgz#07b46bdfa6310c92c3fb3953a8720f170427fc62"
+  integrity sha512-508e6IcKLrhxKdBbcA2b4KQZlLVp2+J5UwQ6F7Drckkc5N9ZJwFa4TgWtsww9UG8fGHbm6gbV19TdM5pQ4GaIA==
 
 webidl-conversions@^3.0.0:
   version "3.0.1"

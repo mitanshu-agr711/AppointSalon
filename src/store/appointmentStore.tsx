@@ -15,6 +15,8 @@ type AppointmentState = {
   serviceHair: string;
   slot: string;
   price: number;
+  totalPrice: number;
+  setTotalPrice: (price: number) => void;
   addSummary: () => void;
   addAgent: (agent: string) => void;
   addServiceHair: (service: string) => void;
@@ -28,7 +30,8 @@ export const useAppointmentStore = create<AppointmentState>((set) => ({
   serviceHair: '',
   slot: '',
   price: 0,
-
+  totalPrice: 0,
+  setTotalPrice: (price) => set({ totalPrice: price }),
   addSummary: () =>
     set((state) => ({
       summary: [

@@ -11,16 +11,21 @@
   "dependencies": {
     "@svgr/webpack": "^8.1.0",
     "@types/paytmchecksum": "^1.5.0",
+    "@types/payu-emea-sdk": "^1.0.10",
     "axios": "^1.7.9",
     "bcrypt": "^5.1.1",
     "bcrypt-ts": "^5.0.3",
     "dotenv": "^16.4.7",
+    "js-sha512": "^0.9.0",
     "moment": "^2.30.1",
     "mongoose": "^8.8.4",
     "next": "^15.1.0",
+    "paystack-sdk": "^2.5.19",
     "paytmchecksum": "^1.5.1",
+    "payu-websdk": "^1.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "uuid": "^11.0.5",
     "zustand": "^5.0.2"
   },
   "devDependencies": {

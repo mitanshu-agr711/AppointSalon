@@ -1,118 +1,85 @@
 'use client';
-
-import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useState } from 'react';
 
-const PaymentComponent = () => {
-  const [self, setSelf] = useState(null);
-  const [onCheckOpen, setOnCheckOpen] = useState(false);
-  const [reshash, setReshash] = useState(null);
+const HomePage = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  const amount = 250; // Update amount
-  const contact = 1234567890; // Update contact number
-  const url = process.env.NEXT_PUBLIC_API_URL; // Use NEXT_PUBLIC_ prefix for public environment variables
-
-  const data = {
-    txnid: 'TXN_' + new Date().getTime(), // Unique transaction ID
-    amount: amount.toFixed(2),
-    productinfo: 'Sample Product',
-    firstname: 'John',
-    email: 'john.doe@example.com',
-  };
-
-  useEffect(() => {
-    if (onCheckOpen) {
-      makePayment();
-    }
-  }, [onCheckOpen]);
-
-  const makePayment = async () => {
-    await paymentReq();
-    await responseReq();
-  };
-
-  const paymentReq = async () => {
+  const initiatePayment = async () => {
     try {
-      const response = await axios.post(
-        `${url}api/payment`,
-        JSON.stringify(data),
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      );
-      setReshash(response?.data?.hash);
+      setIsLoading(true);
+      setError('');
+      
+      const totalPrice = 100;
+      const paymentData = {
+        amount: totalPrice,
+        product: { 
+          title: "Total Order",
+          price: totalPrice 
+        },
+        firstname: 'Krishna',
+        email: 'harish45@gmail.com',
+        mobile: '8500000485'
+      };
+
+      const response = await axios.post("/api/pretransaction", paymentData);
+      
+      // Create a form and submit it to PayU
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = response.data.redirectUrl;
+      
+      // Add all the fields to the form
+      for (const [key, value] of Object.entries(response.data.formData)) {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = key;
+        input.value = value as string;
+        form.appendChild(input);
+      }
+
+      // Add form to body and submit
+      document.body.appendChild(form);
+      form.submit();
+
     } catch (error) {
-      console.error('Payment Error', error);
+      console.error('Payment initiation failed:', error);
+      setError('Payment initiation failed. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
   };
-
-  const responseReq = async () => {
-    const pd = {
-      key: process.env.PAYU_KEY,
-      txnid: data.txnid,
-      amount: data.amount,
-      firstname: data.firstname,
-      email: data.email,
-      phone: contact,
-      productinfo: data.productinfo,
-      surl: `${url}api/pretransaction`,
-      furl: `${url}api/failure`,
-      hash: reshash,
-      service_provider: 'payu_paisa',
-    };
-
-    try {
-      const response = await axios.post(
-        `${url}api/pretransaction`,
-        JSON.stringify(pd),
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      );
-      setSelf(response?.data);
-    } catch (error) {
-      console.error('Response Error', error);
-    }
-  };
-
-  const handleCheckClose = () => setOnCheckOpen(false);
-  const handleCheckOpen = () => setOnCheckOpen(true);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <button
-        className="px-6 py-3 text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300"
-        onClick={handleCheckOpen}
-      >
-        Proceed to Pay
-      </button>
-
-      {onCheckOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
-          <div className="bg-white p-6 rounded shadow-md text-center">
-            <a
-              href={self || '#'}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
-            >
-              You&apos;ll be redirected to PayU payment Gateway
-            </a>
-            <button
-              className="mt-4 px-4 py-2 text-sm text-gray-700 bg-gray-200 rounded hover:bg-gray-300"
-              onClick={handleCheckClose}
-            >
-              Close
-            </button>
+    <div className="container mx-auto px-4 py-8">
+      <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
+        <div className="p-8">
+          <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">
+            Order Summary
           </div>
+          <div className="mt-4">
+            <p className="text-gray-900 font-bold text-xl">Total: ₹100</p>
+          </div>
+          
+          {error && (
+            <div className="mt-4 text-red-500 text-sm">
+              {error}
+            </div>
+          )}
+          
+          <button
+            onClick={initiatePayment}
+            disabled={isLoading}
+            className={`mt-6 w-full bg-indigo-600 text-white py-2 px-4 rounded-md 
+              ${isLoading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-indigo-700'}`}
+          >
+            {isLoading ? 'Processing...' : 'Pay Now'}
+          </button>
         </div>
-      )}
+      </div>
     </div>
   );
 };
 
-export default PaymentComponent;
+export default HomePage;
