@@ -10,6 +10,7 @@ const Summary: React.FC = () => {
   const summary = useAppointmentStore((state) => state.summary);
   const slotCount = useAppointmentStore((state) => state.slotCount);
   const setTotalPrice = useAppointmentStore((state) => state.setTotalPrice);
+  const removeSummary = useAppointmentStore((state) => state.removeSummary); // Access removeSummary
 
   const [showAddButton, setShowAddButton] = useState(false);
 
@@ -23,7 +24,6 @@ const Summary: React.FC = () => {
   }, [totalCumulativePrice, setTotalPrice]);
 
   useEffect(() => {
-   
     if (slotCount > 0) {
       setShowAddButton(true);
     }
@@ -31,7 +31,7 @@ const Summary: React.FC = () => {
 
   const handleOnClick = () => {
     router.push(`/bookyour?service=true`);
-    setShowAddButton(false); 
+    setShowAddButton(false);
   };
 
   const handleCheckout = () => {
@@ -55,18 +55,25 @@ const Summary: React.FC = () => {
         summary.map((entry, index) => (
           <div
             key={index}
-            className="mb-6 border border-gray-300 p-4 rounded-md"
+            className="mb-6 border border-gray-300 p-4 rounded-md flex justify-between items-center"
           >
             <div>
               <div className="text-gray-700">{entry.serviceHair || 'None selected'}</div>
-            </div>
-            <div>
               <div className="text-blue-700">{entry.slot || 'No slot booked'}</div>
+              <div className="flex">
+                <h3 className="font-bold">Agent:</h3>
+                <div className="text-gray-700 ml-2">{entry.agent || 'None assigned'}</div>
+              </div>
             </div>
-            <div className="flex justify-between">
-              <h3 className="font-bold">Agent:</h3>
-              <div className="text-gray-700">{entry.agent || 'None assigned'}</div>
-            </div>
+
+            {/* Delete Button */}
+            <button
+              className="text-red-500 font-bold text-xl"
+              onClick={() => removeSummary(index as number)} // Explicitly set type
+            >
+              -
+            </button>
+
           </div>
         ))
       ) : (
@@ -81,7 +88,7 @@ const Summary: React.FC = () => {
         </div>
       </div>
 
-      
+      {/* Show Add button only if slotCount > 0 and showAddButton is true */}
       {slotCount > 0 && showAddButton && (
         <div
           className="mt-4 text-blue-600 cursor-pointer text-right"

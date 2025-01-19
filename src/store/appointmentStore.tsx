@@ -7,6 +7,7 @@ type SummaryEntry = {
   agent: string;
   slot: string;
   totalPrice: number;
+  
 };
 
 type AppointmentState = {
@@ -17,6 +18,7 @@ type AppointmentState = {
   price: number;
   totalPrice: number;
   slotCount: number; 
+  removeSummary: (index: number) => void
   setTotalPrice: (price: number) => void;
   addSummary: () => void;
   addAgent: (agent: string) => void;
@@ -49,7 +51,7 @@ export const useAppointmentStore = create<AppointmentState>((set) => ({
           totalPrice: state.price,
         },
       ],
-      //reset after adding to summary
+     
       serviceHair: '', 
       agent: '', 
       slot: '', 
@@ -58,6 +60,11 @@ export const useAppointmentStore = create<AppointmentState>((set) => ({
 
   addAgent: (agent) => set(() => ({ agent })),
   addServiceHair: (service) => set(() => ({ serviceHair: service })),
-  // addSlot: (slot) => set(() => ({ slot })),
+  
   addPrice: (price) => set(() => ({ price })),
+  removeSummary: (index) => set((state) => ({
+
+    summary: state.summary.filter((_, i) => i !== index),
+
+  })),
 }));
