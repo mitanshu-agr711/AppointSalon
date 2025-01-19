@@ -16,6 +16,7 @@ type AppointmentState = {
   slot: string;
   price: number;
   totalPrice: number;
+  slotCount: number; 
   setTotalPrice: (price: number) => void;
   addSummary: () => void;
   addAgent: (agent: string) => void;
@@ -30,7 +31,12 @@ export const useAppointmentStore = create<AppointmentState>((set) => ({
   serviceHair: '',
   slot: '',
   price: 0,
+  slotCount: 0,
   totalPrice: 0,
+  addSlot: (slot) => set((state) => ({ 
+    slot,
+    slotCount: state.slotCount + 1 
+  })),
   setTotalPrice: (price) => set({ totalPrice: price }),
   addSummary: () =>
     set((state) => ({
@@ -52,6 +58,6 @@ export const useAppointmentStore = create<AppointmentState>((set) => ({
 
   addAgent: (agent) => set(() => ({ agent })),
   addServiceHair: (service) => set(() => ({ serviceHair: service })),
-  addSlot: (slot) => set(() => ({ slot })),
+  // addSlot: (slot) => set(() => ({ slot })),
   addPrice: (price) => set(() => ({ price })),
 }));

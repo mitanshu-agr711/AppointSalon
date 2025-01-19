@@ -6,38 +6,34 @@ import { useRouter } from 'next/navigation';
 
 const Summary: React.FC = () => {
   const router = useRouter();
-  
-  
-  const [isClient, setIsClient] = useState(false);
 
   const summary = useAppointmentStore((state) => state.summary);
+  const slotCount = useAppointmentStore((state) => state.slotCount);
   const setTotalPrice = useAppointmentStore((state) => state.setTotalPrice);
 
-  
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
+  const [showAddButton, setShowAddButton] = useState(false);
 
-  
   const totalCumulativePrice = summary.reduce(
     (total, entry) => total + (entry.totalPrice || 0),
     0
   );
 
-  
   useEffect(() => {
-    if (isClient) {
-      setTotalPrice(totalCumulativePrice);
-    }
-  }, [isClient, totalCumulativePrice, setTotalPrice]);
+    setTotalPrice(totalCumulativePrice);
+  }, [totalCumulativePrice, setTotalPrice]);
 
-  // Handle clicking to navigate
+  useEffect(() => {
+   
+    if (slotCount > 0) {
+      setShowAddButton(true);
+    }
+  }, [slotCount]);
+
   const handleOnClick = () => {
-    const b = true;
-    router.push(`/bookyour?service=${b}`);
+    router.push(`/bookyour?service=true`);
+    setShowAddButton(false); 
   };
 
-  // Handle checkout navigation
   const handleCheckout = () => {
     router.push(`/bookyour/customer`);
   };
@@ -49,9 +45,12 @@ const Summary: React.FC = () => {
           Summary
         </h1>
         {summary.length > 0 && (
-          <span className="text-blue-600 ml-2 cursor-pointer" onClick={handleCheckout}>Checkout</span>
+          <span className="text-blue-600 ml-2 cursor-pointer" onClick={handleCheckout}>
+            Checkout
+          </span>
         )}
       </div>
+
       {summary.length > 0 ? (
         summary.map((entry, index) => (
           <div
@@ -82,12 +81,15 @@ const Summary: React.FC = () => {
         </div>
       </div>
 
-      <div
-        className="mt-4 text-blue-600 cursor-pointer text-right"
-        onClick={handleOnClick}
-      >
-        +Add
-      </div>
+      
+      {slotCount > 0 && showAddButton && (
+        <div
+          className="mt-4 text-blue-600 cursor-pointer text-right"
+          onClick={handleOnClick}
+        >
+          +Add
+        </div>
+      )}
     </div>
   );
 };
