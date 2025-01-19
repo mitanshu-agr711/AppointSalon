@@ -1,30 +1,34 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
-
-export interface IUser extends Document {
-  select: string;
+export interface IService extends Document {
+  agent: string;
   service: string;
   price: number;
- 
 }
 
-const ServiceSchema: Schema = new mongoose.Schema({
-  agent: { 
-    type: String,
-     required: true 
-},
-  service: { 
-    type: String,
-     required: true
-     },
-  price: { 
-    type: Number,
-     required: true, 
-     unique: true 
+const ServiceSchema: Schema = new mongoose.Schema(
+  {
+    agent: {
+      type: String,
+      required: true,
     },
+    service: {
+      type: String,
+      required: true,
+    },
+    price: {
+      type: Number,
+      required: true,
+    },
+    email:{
+        type: String,
+        required: true,
+    }
+  },
+  { timestamps: true } 
+);
 
-});
-// ServiceSchema.index({ select: 1,service: 1, price: 1 }, { unique: true });
+ServiceSchema.index({ agent: 1, service: 1 }, { unique: true });
 
-export const Service= mongoose.models.User || mongoose.model<IUser>('Servicer', ServiceSchema);
-
+export const Service =
+  mongoose.models.Service || mongoose.model<IService>('Service', ServiceSchema);

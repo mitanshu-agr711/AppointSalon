@@ -25,7 +25,8 @@ const UserSchema: Schema = new mongoose.Schema({
     required: true,
     minlength: [8, "Password must be at least 8 characters long!"],
   },
-});
+},
+{ timestamps: true } );
 
 // UserSchema.methods.comparePassword = async function (candidatePassword: string): Promise<boolean> {
 //     return bcrypt.compare(candidatePassword, this.password);

@@ -1,6 +1,7 @@
 'use client';
 
 import { useAppointmentStore } from '@/store/appointmentStore';
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
@@ -10,9 +11,11 @@ const Summary: React.FC = () => {
   const summary = useAppointmentStore((state) => state.summary);
   const slotCount = useAppointmentStore((state) => state.slotCount);
   const setTotalPrice = useAppointmentStore((state) => state.setTotalPrice);
-  const removeSummary = useAppointmentStore((state) => state.removeSummary); // Access removeSummary
+  const removeSummary = useAppointmentStore((state) => state.removeSummary);
 
-  const [showAddButton, setShowAddButton] = useState(false);
+  const [savingIndex, setSavingIndex] = useState<number | null>(null); // Track which entry is being saved
+  const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
 
   const totalCumulativePrice = summary.reduce(
     (total, entry) => total + (entry.totalPrice || 0),
@@ -23,19 +26,33 @@ const Summary: React.FC = () => {
     setTotalPrice(totalCumulativePrice);
   }, [totalCumulativePrice, setTotalPrice]);
 
-  useEffect(() => {
-    if (slotCount > 0) {
-      setShowAddButton(true);
+  const handleSaveToAPI = async (entry: any, index: number) => {
+    try {
+      setSavingIndex(index); // Track the entry being saved
+      setErrorMessage('');
+      setSuccessMessage('');
+
+      const { agent, serviceHair, totalPrice } = entry;
+      const serviceData = {
+        agent,
+        service: serviceHair,
+        price: totalPrice,
+      };
+
+      // Make the POST request to the API
+      const response = await axios.post('/api/service', serviceData);
+
+      if (response.status === 201) {
+        setSuccessMessage(`Entry ${index + 1} saved successfully!`);
+      } else {
+        setErrorMessage('Failed to save data. Please try again.');
+      }
+    } catch (error: any) {
+      console.error('Error saving data:', error);
+      setErrorMessage(error.response?.data?.error || 'Something went wrong.');
+    } finally {
+      setSavingIndex(null); // Reset saving state
     }
-  }, [slotCount]);
-
-  const handleOnClick = () => {
-    router.push(`/bookyour?service=true`);
-    setShowAddButton(false);
-  };
-
-  const handleCheckout = () => {
-    router.push(`/bookyour/customer`);
   };
 
   return (
@@ -45,11 +62,15 @@ const Summary: React.FC = () => {
           Summary
         </h1>
         {summary.length > 0 && (
-          <span className="text-blue-600 ml-2 cursor-pointer" onClick={handleCheckout}>
+          <span className="text-blue-600 ml-2 cursor-pointer" onClick={() => router.push(`/bookyour/customer`)}>
             Checkout
           </span>
         )}
       </div>
+
+      {/* Display error or success messages */}
+      {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+      {successMessage && <p className="text-green-500">{successMessage}</p>}
 
       {summary.length > 0 ? (
         summary.map((entry, index) => (
@@ -66,14 +87,24 @@ const Summary: React.FC = () => {
               </div>
             </div>
 
+            {/* Save to API Button */}
+            <button
+              className={`text-green-500 font-bold text-sm px-4 py-2 rounded-md ${
+                savingIndex === index ? 'opacity-50 cursor-not-allowed' : 'hover:bg-green-200'
+              }`}
+              onClick={() => handleSaveToAPI(entry, index)}
+              disabled={savingIndex === index} // Disable button only for the entry being saved
+            >
+              Save
+            </button>
+
             {/* Delete Button */}
             <button
               className="text-red-500 font-bold text-xl"
-              onClick={() => removeSummary(index as number)} // Explicitly set type
+              onClick={() => removeSummary(index)}
             >
               -
             </button>
-
           </div>
         ))
       ) : (
@@ -87,18 +118,9 @@ const Summary: React.FC = () => {
           ${totalCumulativePrice}
         </div>
       </div>
-
-      {/* Show Add button only if slotCount > 0 and showAddButton is true */}
-      {slotCount > 0 && showAddButton && (
-        <div
-          className="mt-4 text-blue-600 cursor-pointer text-right"
-          onClick={handleOnClick}
-        >
-          +Add
-        </div>
-      )}
     </div>
   );
 };
 
 export default Summary;
+1

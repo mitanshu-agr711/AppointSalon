@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { Sign } from '@/lib/registeration/signup';
+import { generateToken } from '../auth/generateToken';
 
 export async function POST(req: Request) {
     try {
@@ -15,6 +16,8 @@ export async function POST(req: Request) {
         }
         const user = new Sign({ firstName, secondName, email, password });
         await user.save();
+        const token= generateToken(user);
+        localStorage.setItem('token', token);
 
         return NextResponse.json({ message: 'User SignUp successfully',  user: { firstName, secondName, email }}, { status: 201 });
     } catch (error) {

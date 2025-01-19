@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 
 import { Login } from '@/lib/registeration/login';
 import bcrypt from 'bcrypt';
-
+import { generateToken } from '../auth/generateToken';
 
 export async function POST(req: Request) {
     try {
@@ -27,6 +27,8 @@ export async function POST(req: Request) {
                 { status: 401 }
             );
         }
+        const token= generateToken(user);
+        localStorage.setItem('token', token);
 
         return NextResponse.json({ message: 'User login successfully', user }, { status: 201 });
 

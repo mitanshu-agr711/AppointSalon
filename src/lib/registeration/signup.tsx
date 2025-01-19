@@ -31,7 +31,9 @@ const UserSchema: Schema = new mongoose.Schema({
         required: true,
         minlength: [8, "Password must be at least 8 characters long!"],
     },
-});
+}
+,{ timestamps: true } 
+);
 
 UserSchema.pre<IUser>('save', async function (next) {
     if (!this.isModified('password')) return next();
