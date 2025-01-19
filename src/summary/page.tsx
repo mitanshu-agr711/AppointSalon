@@ -9,7 +9,7 @@ const Summary: React.FC = () => {
   const router = useRouter();
 
   const summary = useAppointmentStore((state) => state.summary);
-  const slotCount = useAppointmentStore((state) => state.slotCount);
+  // const slotCount = useAppointmentStore((state) => state.slotCount);
   const setTotalPrice = useAppointmentStore((state) => state.setTotalPrice);
   const removeSummary = useAppointmentStore((state) => state.removeSummary);
 
@@ -68,7 +68,7 @@ const Summary: React.FC = () => {
         )}
       </div>
 
-      {/* Display error or success messages */}
+     
       {errorMessage && <p className="text-red-500">{errorMessage}</p>}
       {successMessage && <p className="text-green-500">{successMessage}</p>}
 

@@ -28,7 +28,7 @@ export async function POST(req: Request) {
             );
         }
         const token= generateToken(user);
-        localStorage.setItem('token', token);
+        // localStorage.setItem('token', token);
 
         return NextResponse.json({ message: 'User login successfully', user }, { status: 201 });
 

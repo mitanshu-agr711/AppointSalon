@@ -6,11 +6,13 @@ import { useState } from 'react';
 import Sidebar from '@/sidebar/page';
 import Summary from '@/summary/page';
 import axios from 'axios';
-
+// import { NextResponse } from 'next/server';
 const customer = ["New Customer", "Already Account"];
 
 export default function CustomerInformation() {
     // const router = useRouter();
+const [errorMessage, setErrorMessage] = useState('');
+
     const [selectedElement, setSelectedElement] = useState("New Customer");
     const [formData, setFormData] = useState({
         firstName: "",
@@ -37,28 +39,28 @@ export default function CustomerInformation() {
             // alert("Please fill all required fields!");
             return;
         }
-
+        setErrorMessage('');
         const api = selectedElement === "New Customer" ? "/api/customerSignup" : "/api/login";
 
         try {
-            const { data } = await axios.post(api, formData);
-            const st= data.status;
-            console.log(data);
-            console.log("status",st);
-            if(st === 201) {
-                alert("User SignUp successfully");
+            const  response = await axios.post(api, formData);
+            // const response = await axios.post('/api/service', data);
+
+     
+            if (response.status === 201 || response.status === 200) {
+
+                const { token } = response.data;
+
+                // Store the token in localStorage
+                localStorage.setItem('token', token);
+
+                alert(response.data.message); 
+            } else {
+                setErrorMessage('Failed to save data. Please try again.');
             }
-            else if(st === 400) {
-                alert("Validation failed");
-            }
-            else if(st === 401) {
-                alert("User already exist");
-            }
-            else {
-                // alert("Internal Server Error");
-        } }catch (error)  {
-                console.error("Unexpected Error:", error);
-                // alert("Unexpected error occurred. Please try again.");
+       }catch (error)  {
+            console.error('Error saving data:', error);
+            setErrorMessage(error.response?.data?.error || 'Something went wrong.');
         }
     };
 
@@ -151,6 +153,9 @@ export default function CustomerInformation() {
                                     onChange={handleInputChange}
                                     className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 />
+                                 {errorMessage && (
+                            <div className="text-red-500 text-center">{errorMessage}</div>
+                        )}
                                 <button
                                     className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
                                     onClick={handleOnClick}

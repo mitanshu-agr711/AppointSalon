@@ -16,6 +16,5 @@ export function generateToken(user: User): string {
         expiresIn: '7d', 
     };
 
-    // Generate the token
     return jwt.sign(payload, secretKey, options);
 }
