@@ -2,6 +2,7 @@
 
 import { useAppointmentStore } from '@/store/appointmentStore';
 import axios from 'axios';
+import jwt from 'jsonwebtoken';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
@@ -9,41 +10,56 @@ const Summary: React.FC = () => {
   const router = useRouter();
 
   const summary = useAppointmentStore((state) => state.summary);
-  // const slotCount = useAppointmentStore((state) => state.slotCount);
   const setTotalPrice = useAppointmentStore((state) => state.setTotalPrice);
   const removeSummary = useAppointmentStore((state) => state.removeSummary);
 
-  const [savingIndex, setSavingIndex] = useState<number | null>(null); // Track which entry is being saved
+  const [savingIndex, setSavingIndex] = useState<number | null>(null);
   const [errorMessage, setErrorMessage] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
+  // const [successMessage, setSuccessMessage] = useState('');
 
-  const totalCumulativePrice = summary.reduce(
-    (total, entry) => total + (entry.totalPrice || 0),
-    0
-  );
+  const totalPrice = summary.reduce((total, entry) => total + (entry.price || 0), 0);
 
   useEffect(() => {
-    setTotalPrice(totalCumulativePrice);
-  }, [totalCumulativePrice, setTotalPrice]);
+    setTotalPrice(totalPrice);
+  }, [totalPrice, setTotalPrice]);
 
   const handleSaveToAPI = async (entry: any, index: number) => {
     try {
-      setSavingIndex(index); // Track the entry being saved
+      setSavingIndex(index);
       setErrorMessage('');
-      setSuccessMessage('');
+      // setSuccessMessage('');
 
-      const { agent, serviceHair, totalPrice } = entry;
+      const token = localStorage.getItem('token');
+      if (!token) {
+        setErrorMessage('User token not found. Please log in again.');
+        return;
+      }
+
+      const decodedToken: any = jwt.decode(token);
+      const email = decodedToken?.email;
+
+      if (!email) {
+        setErrorMessage('Email not found in the token. Please log in again.');
+        return;
+      }
+
+      const { agent, serviceHair, price } = entry;
+
       const serviceData = {
         agent,
         service: serviceHair,
-        price: totalPrice,
+        price,
+        email,
       };
 
-      // Make the POST request to the API
-      const response = await axios.post('/api/service', serviceData);
+      const response = await axios.post('/api/service', serviceData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       if (response.status === 201) {
-        setSuccessMessage(`Entry ${index + 1} saved successfully!`);
+        // setSuccessMessage(`Entry ${index + 1} saved successfully!`);
       } else {
         setErrorMessage('Failed to save data. Please try again.');
       }
@@ -51,7 +67,7 @@ const Summary: React.FC = () => {
       console.error('Error saving data:', error);
       setErrorMessage(error.response?.data?.error || 'Something went wrong.');
     } finally {
-      setSavingIndex(null); // Reset saving state
+      setSavingIndex(null);
     }
   };
 
@@ -62,15 +78,17 @@ const Summary: React.FC = () => {
           Summary
         </h1>
         {summary.length > 0 && (
-          <span className="text-blue-600 ml-2 cursor-pointer" onClick={() => router.push(`/bookyour/customer`)}>
+          <span
+            className="text-blue-600 ml-2 cursor-pointer"
+            onClick={() => router.push(`/bookyour/customer`)}
+          >
             Checkout
           </span>
         )}
       </div>
 
-     
       {errorMessage && <p className="text-red-500">{errorMessage}</p>}
-      {successMessage && <p className="text-green-500">{successMessage}</p>}
+      {/* {successMessage && <p className="text-green-500">{successMessage}</p>} */}
 
       {summary.length > 0 ? (
         summary.map((entry, index) => (
@@ -85,22 +103,26 @@ const Summary: React.FC = () => {
                 <h3 className="font-bold">Agent:</h3>
                 <div className="text-gray-700 ml-2">{entry.agent || 'None assigned'}</div>
               </div>
+              <div className="flex">
+                <h3 className="font-bold">Price:</h3>
+                <div className="text-gray-700 ml-2">${entry.price || 0}</div>
+              </div>
             </div>
 
-            {/* Save to API Button */}
+            {/* Save Button */}
             <button
               className={`text-green-500 font-bold text-sm px-4 py-2 rounded-md ${
                 savingIndex === index ? 'opacity-50 cursor-not-allowed' : 'hover:bg-green-200'
               }`}
               onClick={() => handleSaveToAPI(entry, index)}
-              disabled={savingIndex === index} // Disable button only for the entry being saved
+              disabled={savingIndex === index}
             >
               Save
             </button>
 
-            {/* Delete Button */}
+            {/* Remove Button */}
             <button
-              className="text-red-500 font-bold text-xl"
+              className="text-red-500 font-bold text-xl hover:bg-red-200"
               onClick={() => removeSummary(index)}
             >
               -
@@ -114,13 +136,10 @@ const Summary: React.FC = () => {
       <div className="border-t border-blue-300 my-6 w-full"></div>
       <div className="mt-4">
         <h2 className="font-semibold text-gray-800">Total Price</h2>
-        <div className="ml-4 text-lg font-bold text-gray-950">
-          ${totalCumulativePrice}
-        </div>
+        <div className="ml-4 text-lg font-bold text-gray-950">${totalPrice}</div>
       </div>
     </div>
   );
 };
 
 export default Summary;
-1

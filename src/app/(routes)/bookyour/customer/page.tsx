@@ -48,9 +48,10 @@ const [errorMessage, setErrorMessage] = useState('');
 
      
             if (response.status === 201 || response.status === 200) {
+                // console.log(`response`, response);
 
                 const { token } = response.data;
-
+                // console.log(`token`, token);
                 // Store the token in localStorage
                 localStorage.setItem('token', token);
 

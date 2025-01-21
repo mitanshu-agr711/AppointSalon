@@ -7,6 +7,7 @@ type SummaryEntry = {
   agent: string;
   slot: string;
   totalPrice: number;
+  price: number;
   
 };
 
@@ -49,6 +50,7 @@ export const useAppointmentStore = create<AppointmentState>((set) => ({
           agent: state.agent,
           slot: state.slot,
           totalPrice: state.price,
+          price: state.price,
         },
       ],
      
@@ -56,6 +58,7 @@ export const useAppointmentStore = create<AppointmentState>((set) => ({
       agent: '', 
       slot: '', 
       price: 0, 
+      totalPrice: 0,
     })),
 
   addAgent: (agent) => set(() => ({ agent })),
