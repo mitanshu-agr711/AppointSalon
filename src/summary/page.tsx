@@ -16,6 +16,7 @@ const Summary: React.FC = () => {
   const [savingIndex, setSavingIndex] = useState<number | null>(null);
   const [errorMessage, setErrorMessage] = useState('');
   // const [successMessage, setSuccessMessage] = useState('');
+  // const[show, setShow] = useState(false);
 
   const totalPrice = summary.reduce((total, entry) => total + (entry.price || 0), 0);
 
@@ -23,12 +24,37 @@ const Summary: React.FC = () => {
     setTotalPrice(totalPrice);
   }, [totalPrice, setTotalPrice]);
 
+     const deleteService = async (index: number) => {
+       try {
+      const response = await fetch('/api/removeService', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ index }),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        console.log('Service deleted:', data.deletedService);
+
+        removeSummary(index);
+      } else {
+        setErrorMessage('Failed to delete, Please try again.');
+        console.error('Error:', data.error);
+      }
+    } catch (error) {
+      setErrorMessage('Failed to delete. Please try again.');
+      console.error('Error deleting service:', error);
+    }
+  }
+
+
   const handleSaveToAPI = async (entry: any, index: number) => {
     try {
       setSavingIndex(index);
       setErrorMessage('');
-      // setSuccessMessage('');
-
+     
       const token = localStorage.getItem('token');
       if (!token) {
         setErrorMessage('User token not found. Please log in again.');
@@ -50,7 +76,9 @@ const Summary: React.FC = () => {
         service: serviceHair,
         price,
         email,
+        index
       };
+      console.log('serviceData:', serviceData);
 
       const response = await axios.post('/api/service', serviceData, {
         headers: {
@@ -78,12 +106,12 @@ const Summary: React.FC = () => {
           Summary
         </h1>
         {summary.length > 0 && (
-          <span
+          <div
             className="text-blue-600 ml-2 cursor-pointer"
             onClick={() => router.push(`/bookyour/customer`)}
           >
             Checkout
-          </span>
+          </div>
         )}
       </div>
 
@@ -109,7 +137,6 @@ const Summary: React.FC = () => {
               </div>
             </div>
 
-            {/* Save Button */}
             <button
               className={`text-green-500 font-bold text-sm px-4 py-2 rounded-md ${
                 savingIndex === index ? 'opacity-50 cursor-not-allowed' : 'hover:bg-green-200'
@@ -120,10 +147,10 @@ const Summary: React.FC = () => {
               Save
             </button>
 
-            {/* Remove Button */}
+           
             <button
               className="text-red-500 font-bold text-xl hover:bg-red-200"
-              onClick={() => removeSummary(index)}
+              onClick={() =>deleteService(index)}
             >
               -
             </button>

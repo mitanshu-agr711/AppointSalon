@@ -67,6 +67,8 @@ export const useAppointmentStore = create<AppointmentState>((set) => ({
   addPrice: (price) => set(() => ({ price })),
   removeSummary: (index) => set((state) => ({
 
+    
+
     summary: state.summary.filter((_, i) => i !== index),
 
   })),

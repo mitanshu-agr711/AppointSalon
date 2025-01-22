@@ -1,5 +1,5 @@
 import mongoose, { Schema, Document } from 'mongoose';
-import { unique } from 'next/dist/build/utils';
+// import { unique } from 'next/dist/build/utils';
 
 export interface IService extends Document {
   agent: string;
@@ -9,6 +9,10 @@ export interface IService extends Document {
 
 const ServiceSchema: Schema = new mongoose.Schema(
   {
+    index: { 
+      required: true,
+      type: Number,
+    },
     agent: {
       type: String,
       required: true,
@@ -29,7 +33,7 @@ const ServiceSchema: Schema = new mongoose.Schema(
   { timestamps: true } 
 );
 
-ServiceSchema.index({ agent: 1, service: 1 }, { unique: true });
+ServiceSchema.index({ agent: 1, service: 1,index:1 }, { unique: true });
 
 export const Service =
   mongoose.models.Service || mongoose.model<IService>('Service', ServiceSchema);

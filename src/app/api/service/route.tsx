@@ -4,17 +4,20 @@ import { Service } from '@/lib/service/service';
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { agent, service, price, email } = body;
-
-
-    if (!agent || !service || !price || !email) {
+    let { agent, service, price, email,index } = body;
+     
+   console.log("body", body);
+    if (!agent || !service || !price || !email ||index === undefined) {
       return NextResponse.json(
         { error: 'All fields (agent, service, price, email) are required.' },
         { status: 400 }
       );
     }
 
-    const serviceEntry = new Service({ agent, service, price, email });
+    index += 1;
+
+    const serviceEntry = new Service({ agent, service, price, email,index });
+    console.log("serviceEntry", serviceEntry);
     await serviceEntry.save();
 
     return NextResponse.json(
