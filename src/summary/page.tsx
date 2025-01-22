@@ -69,14 +69,15 @@ const Summary: React.FC = () => {
         return;
       }
 
-      const { agent, serviceHair, price } = entry;
+      const { agent, serviceHair, price,slot } = entry;
 
       const serviceData = {
         agent,
         service: serviceHair,
         price,
         email,
-        index
+        index,
+        slot
       };
       console.log('serviceData:', serviceData);
 

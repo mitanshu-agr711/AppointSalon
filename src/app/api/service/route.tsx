@@ -4,7 +4,7 @@ import { Service } from '@/lib/service/service';
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    let { agent, service, price, email,index } = body;
+    let { agent, service, price, email,slot,index } = body;
      
    console.log("body", body);
     if (!agent || !service || !price || !email ||index === undefined) {
@@ -16,7 +16,7 @@ export async function POST(req: Request) {
 
     index += 1;
 
-    const serviceEntry = new Service({ agent, service, price, email,index });
+    const serviceEntry = new Service({ agent, service, price,slot, email,index });
     console.log("serviceEntry", serviceEntry);
     await serviceEntry.save();
 

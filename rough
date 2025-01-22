@@ -1,6 +1,6 @@
 'use client';
 import axios from 'axios';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Sidebar from '@/sidebar/page';
 import Image from 'next/image';
 // import service from '@/app/api/service.get';
@@ -54,23 +54,9 @@ const HomePage = () => {
   //   }
   // };
 
-
-  const [response, setResponse] = useState(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await axios.get("/api/getservice");
-        setResponse(res.data);
-        console.log("Response from /api/service:", res.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
+  const response = axios.get("/api/service");
+  console.log(response);
+  
 
   return (
     <>
@@ -100,34 +86,22 @@ const HomePage = () => {
                 </div>
               </div>
             </div>
-            <div className="w-1/2 shadow-lg p-6 rounded-lg">
-              <h1 className='text-2xl flex  font-bold items-center'>Verify Order Details</h1>
-              {response && (
-                <div>
-                  {/* <h3>Services:</h3> */}
-                  <ul>
-                    {response.map((item: any, index: number) => (
-                      <li key={index}>
-                        <div className='shadow-lg p-4 rounded-lg'>
-                          <div className='text-xl text-black p-1'>{item.service}</div>
-                          <div className='text-blue-500 m-1'>{item.slot}</div>
-                          <div className='text-slate-700 text-xl mb-1'>Agent:</div>
-                          <div className="flex items-center">
-                              <Image src="/contact.png" alt="verify Icon" width={30} height={40} />
-                            <span className=" text-left text-lg">{item.agent}</span>
-                          </div>
-
-                          {/* <div>${item.price}</div>  */}
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
+            <div className="w-1/2 shadow-lg  p-6 rounded-lg">
+             <h1>Verify Order Details</h1>
             </div>
+
+            <ul className="space-y-4">
+              <li 
+            </ul>
+
+            <div>
+
+            </div>
+            
           </div>
         </div>
       </div>
+      
 
     </>
 
