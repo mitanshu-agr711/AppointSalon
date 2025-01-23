@@ -3,10 +3,17 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import Sidebar from '@/sidebar/page';
 import Image from 'next/image';
-// import service from '@/app/api/service.get';
+import { useAppointmentStore } from '@/store/appointmentStore';
 
-const HomePage = () => {
-  // const [isLoading, setIsLoading] = useState(false);
+// import service from '@/app/api/service.get';
+interface Service {
+  service: string;
+  slot: string;
+  agent: string;
+}
+
+
+// const [isLoading, setIsLoading] = useState(false);
   // const [error, setError] = useState('');
 
   // const initiatePayment = async () => {
@@ -55,7 +62,14 @@ const HomePage = () => {
   // };
 
 
-  const [response, setResponse] = useState(null);
+
+
+
+const HomePage = () => {
+  
+  const removeSummary = useAppointmentStore((state) => state.removeSummary);
+
+  const [response, setResponse] = useState<Service[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -71,6 +85,38 @@ const HomePage = () => {
     fetchData();
   }, []);
 
+  const deleteService = async (index: number) => {
+    console.log('Attempting to delete service at index:', index); // Debugging
+
+    try {
+      // Send the request to the backend
+      const response = await axios.post('/api/removeService', {
+        index,
+      });
+      console.log('Response from backend:', response); 
+
+      if (response.status === 200) {
+       
+        setResponse((prevResponse) =>
+          prevResponse.filter((_, i) => i !== index)
+        );
+        removeSummary(index); 
+      } else {
+        console.error('Failed to delete service:', response);
+      }
+    } catch (error) {
+      console.error('Error deleting service:', error);
+    }
+  };
+
+  const user = async () => {
+    try {
+      const apiuser = await axios.get('/api/customerSignup');
+      console.log('Response from /api/user:', apiuser.data);
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+    }
+  };
 
   return (
     <>
@@ -83,7 +129,7 @@ const HomePage = () => {
             <Sidebar />
           </div>
         </div>
-        <div className="justify-center items-center border p-4 w-auto h-auto md:w-3/5 md:h-4/5 divide-y divide-dashed hover:divide-solid shadow-lg">
+        <div className="justify-center items-center border p-4 w-auto h-auto md:w-3/5 md:h-auto divide-y divide-dashed hover:divide-solid shadow-lg">
           <div className="flex w-full h-full justify-between">
             <div className="w-1/2 hidden md:block">
               <div className="h-full justify-center items-center flex-col flex space-y-8">
@@ -104,34 +150,66 @@ const HomePage = () => {
               <h1 className='text-2xl flex  font-bold items-center'>Verify Order Details</h1>
               {response && (
                 <div>
-                  {/* <h3>Services:</h3> */}
                   <ul>
                     {response.map((item: any, index: number) => (
-                      <li key={index}>
-                        <div className='shadow-lg p-4 rounded-lg'>
-                          <div className='text-xl text-black p-1'>{item.service}</div>
-                          <div className='text-blue-500 m-1'>{item.slot}</div>
-                          <div className='text-slate-700 text-xl mb-1'>Agent:</div>
-                          <div className="flex items-center">
-                              <Image src="/contact.png" alt="verify Icon" width={30} height={40} />
-                            <span className=" text-left text-lg">{item.agent}</span>
-                          </div>
+                      <li key={index} className="transition-all duration-300 ease-in-out transform">
+                        <div className=' rounded-lg relative m-2 shadow-lg p-4 cursor-pointer'>
+                          <button
+                            className="absolute top-2 right-2 text-red-500 
+                                   hover:text-red-700 hover:bg-red-100 rounded-full "
+                            onClick={() => {
+                              console.log('Button clicked for index:', index);
+                              deleteService(index);
+                            }}
+                            aria-label="Delete service"
+                          >
+                            ❌
+                          </button>
 
-                          {/* <div>${item.price}</div>  */}
+                          <div className='text-xl text-black p-1 transition-transform duration-300 
+                      group-hover:translate-x-2'>{item.service}</div>
+                          <div className='text-blue-500 m-1 transition-transform duration-300 
+                      group-hover:translate-x-2'>{item.slot}</div>
+                          <div className='text-slate-700 text-xl mb-1 transition-transform duration-300 
+                      group-hover:translate-x-2'>Agent:</div>
+                          <div className="flex items-center transition-transform duration-300 
+                      group-hover:translate-x-2">
+                            <Image src="/contact.png" alt="verify Icon" width={30} height={40} />
+                            <span className="text-left text-lg ml-2">{item.agent}</span>
+                          </div>
                         </div>
                       </li>
                     ))}
                   </ul>
                 </div>
               )}
+              <div className="text-gray-500"></div>
+              <div></div>
             </div>
           </div>
         </div>
       </div>
-
     </>
+  );
+};
+export default HomePage;
 
-    // <div className="container mx-auto px-4 py-8">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // <div className="container mx-auto px-4 py-8">
     //   <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
     //     <div className="p-8">
     //       <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">
@@ -158,7 +236,3 @@ const HomePage = () => {
     //     </div>
     //   </div>
     // </div>
-  );
-};
-
-export default HomePage;
