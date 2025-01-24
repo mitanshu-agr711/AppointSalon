@@ -37,7 +37,7 @@ const ServiceSchema: Schema = new mongoose.Schema(
   { timestamps: true } 
 );
 
-ServiceSchema.index({ agent: 1, service: 1,index:1 }, { unique: true });
+// ServiceSchema.index({ agent: 1, service:  }, { unique: true });
 
 export const Service =
   mongoose.models.Service || mongoose.model<IService>('Service', ServiceSchema);

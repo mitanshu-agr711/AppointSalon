@@ -6,6 +6,8 @@ import { useState } from 'react';
 import Sidebar from '@/sidebar/page';
 import Summary from '@/summary/page';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
+
 // import { NextResponse } from 'next/server';
 const customer = ["New Customer", "Already Account"];
 
@@ -28,7 +30,7 @@ const [errorMessage, setErrorMessage] = useState('');
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
-
+ const router = useRouter();
 
     const handleOnClick = async () => {
         if (
@@ -56,6 +58,7 @@ const [errorMessage, setErrorMessage] = useState('');
                 localStorage.setItem('token', token);
 
                 alert(response.data.message); 
+                router.push(`/bookyour/payment`);
             } else {
                 setErrorMessage('Failed to save data. Please try again.');
             }

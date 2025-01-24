@@ -9,6 +9,7 @@ export async function POST(req: Request) {
 
         const body = await req.json();
         const {  email, password } = body;
+        console.log("body", body);
         if ( !email || !password) {
             return NextResponse.json({ error: 'user not found' }, { status: 404 });
         }
@@ -21,6 +22,7 @@ export async function POST(req: Request) {
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
+    console.log("isPasswordValid", isPasswordValid);
         if (!isPasswordValid) {
             return NextResponse.json(
                 { error: 'Invalid email or password not correct.' },

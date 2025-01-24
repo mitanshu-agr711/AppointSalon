@@ -5,6 +5,7 @@ import Sidebar from '@/sidebar/page';
 import Image from 'next/image';
 import { useAppointmentStore } from '@/store/appointmentStore';
 import jwt from 'jsonwebtoken';
+import { useRouter } from 'next/navigation';
 
 interface Service {
   service: string;
@@ -14,12 +15,17 @@ interface Service {
 }
 
 const HomePage = () => {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [response, setResponse] = useState<Service[]>([]);
   const [user, setUser] = useState<{ firstName: string; lastName: string; mobile?: string } | null>(null);
   const [email, setEmail] = useState<string | null>(null);
   const [error, setError] = useState('');
   const removeSummary = useAppointmentStore((state) => state.removeSummary);
+
+ const handleAdd=()=>{
+  router.push(`/bookyour`);
+ }
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -181,7 +187,7 @@ const HomePage = () => {
                   </div>
                 )}
               </div>
-              
+
               {response && response.length > 0 ? (
                 <div className="flex flex-col h-full">
                   <div className="flex-1 overflow-y-auto custom-scrollbar">
@@ -216,7 +222,17 @@ const HomePage = () => {
                       ))}
                     </ul>
                   </div>
-                  
+                  <button
+                    className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+                    onClick={() => {
+                      handleAdd();
+
+                     
+                    }}
+                  >
+                    + Add
+                  </button>
+
                   <div className="flex-none mt-4">
                     <div className="p-4 border rounded-md shadow-md bg-gray-100 flex justify-between">
                       <h2 className="text-xl font-semibold">Total Price:</h2>
@@ -241,7 +257,7 @@ const HomePage = () => {
           </div>
         </div>
       </div>
-      
+
       <style jsx global>{`
         .custom-scrollbar::-webkit-scrollbar {
           width: 6px;

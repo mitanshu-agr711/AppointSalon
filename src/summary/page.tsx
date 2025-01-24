@@ -15,8 +15,7 @@ const Summary: React.FC = () => {
 
   const [savingIndex, setSavingIndex] = useState<number | null>(null);
   const [errorMessage, setErrorMessage] = useState('');
-  // const [successMessage, setSuccessMessage] = useState('');
-  // const[show, setShow] = useState(false);
+  const [showAddButton, setShowAddButton] = useState(false);
 
   const totalPrice = summary.reduce((total, entry) => total + (entry.price || 0), 0);
 
@@ -24,8 +23,8 @@ const Summary: React.FC = () => {
     setTotalPrice(totalPrice);
   }, [totalPrice, setTotalPrice]);
 
-     const deleteService = async (index: number) => {
-       try {
+  const deleteService = async (index: number) => {
+    try {
       const response = await fetch('/api/removeService', {
         method: 'POST',
         headers: {
@@ -37,8 +36,8 @@ const Summary: React.FC = () => {
       const data = await response.json();
       if (response.ok) {
         console.log('Service deleted:', data.deletedService);
-
         removeSummary(index);
+        setShowAddButton(true); // Show +Add button after removing an entry
       } else {
         setErrorMessage('Failed to delete, Please try again.');
         console.error('Error:', data.error);
@@ -47,14 +46,13 @@ const Summary: React.FC = () => {
       setErrorMessage('Failed to delete. Please try again.');
       console.error('Error deleting service:', error);
     }
-  }
-
+  };
 
   const handleSaveToAPI = async (entry: any, index: number) => {
     try {
       setSavingIndex(index);
       setErrorMessage('');
-     
+
       const token = localStorage.getItem('token');
       if (!token) {
         setErrorMessage('User token not found. Please log in again.');
@@ -69,7 +67,7 @@ const Summary: React.FC = () => {
         return;
       }
 
-      const { agent, serviceHair, price,slot } = entry;
+      const { agent, serviceHair, price, slot } = entry;
 
       const serviceData = {
         agent,
@@ -77,7 +75,7 @@ const Summary: React.FC = () => {
         price,
         email,
         index,
-        slot
+        slot,
       };
       console.log('serviceData:', serviceData);
 
@@ -88,7 +86,7 @@ const Summary: React.FC = () => {
       });
 
       if (response.status === 201) {
-        // setSuccessMessage(`Entry ${index + 1} saved successfully!`);
+        setShowAddButton(true); // Show +Add button after saving an entry
       } else {
         setErrorMessage('Failed to save data. Please try again.');
       }
@@ -100,6 +98,10 @@ const Summary: React.FC = () => {
     }
   };
 
+  const handleAdd = () => {
+    router.push('/bookyour');
+  }
+  
   return (
     <div className="p-4 gap-y-4">
       <div className="flex flex-row">
@@ -108,7 +110,7 @@ const Summary: React.FC = () => {
         </h1>
         {summary.length > 0 && (
           <div
-            className="text-blue-600 ml-2 cursor-pointer"
+            className="text-blue-600 ml-2 cursor-pointer hover:text-blue-800"
             onClick={() => router.push(`/bookyour/customer`)}
           >
             Checkout
@@ -117,7 +119,6 @@ const Summary: React.FC = () => {
       </div>
 
       {errorMessage && <p className="text-red-500">{errorMessage}</p>}
-      {/* {successMessage && <p className="text-green-500">{successMessage}</p>} */}
 
       {summary.length > 0 ? (
         summary.map((entry, index) => (
@@ -148,10 +149,9 @@ const Summary: React.FC = () => {
               Save
             </button>
 
-           
             <button
               className="text-red-500 font-bold text-xl hover:bg-red-200"
-              onClick={() =>deleteService(index)}
+              onClick={() => deleteService(index)}
             >
               -
             </button>
@@ -166,6 +166,21 @@ const Summary: React.FC = () => {
         <h2 className="font-semibold text-gray-800">Total Price</h2>
         <div className="ml-4 text-lg font-bold text-gray-950">${totalPrice}</div>
       </div>
+
+      {showAddButton && (
+        <div className="mt-6">
+          <button
+            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+            onClick={() => {
+              handleAdd();
+              
+              setShowAddButton(false);
+            }}
+          >
+            + Add
+          </button>
+        </div>
+      )}
     </div>
   );
 };
