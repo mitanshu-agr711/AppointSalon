@@ -1,113 +1,119 @@
-
 'use client';
 
-// import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
-
 import Summary from '@/summary/page';
-
 import { useRouter } from 'next/navigation';
 import Sidebar from '@/sidebar/page';
-
 import { useAppointmentStore } from '@/store/appointmentStore';
+import { useState } from 'react';
+
 interface Agent {
-   service: string;
+    service: string;
 }
 
 export default function Agents() {
-   const router = useRouter();
-   const addAgent = useAppointmentStore((state) => state.addAgent); 
+    const router = useRouter();
+    const addAgent = useAppointmentStore((state) => state.addAgent);
+    const [cartVisible, setCartVisible] = useState(false);
 
-
-    // const searchParams = useSearchParams();
-    // const service = searchParams.get('service') || '';
-    // console.log(service);
     const handleOnclick = () => {
-        
-        router.push(`/bookyour`); 
+        router.push(`/bookyour`);
     };
-    const handleOnAgent=({service}:Agent)=>{
-        router.push(`/calender`); 
+
+    const handleOnAgent = ({ service }: Agent) => {
+        router.push(`/calender`);
         addAgent(service);
-    }
+    };
+
+    const agents = [
+        { name: 'Any Agent', image: '/boycontacts.png' },
+        { name: 'John', image: '/young-man.png' },
+        { name: 'Mirra', image: '/woman.png' },
+    ];
+
+    const toggleCart = () => setCartVisible((prev) => !prev);
 
     return (
-        <>
-         <div className="flex-row h-[100%] border border-gray-600  md:w-[20%] sm:hidden" >
-                        <Sidebar />
-                    </div>
-                    
-            <div className="flex items-center justify-center h-screen">
-                 <div className="hidden sm:block md:w-[20%] w-auto h-full mr-3 shadow-lg">
-                                    <Sidebar />
-                                </div>
+    <>
+            <div className="flex-row h-[100%] border border-gray-600 md:w-[20%] sm:hidden shadow-lg">
+                <Sidebar />
+            </div>
 
-                <div className="justify-center items-center border border-slate-800 p-4 w-auto h-auto divide-y divide-dashed hover:divide-solid">
+            <div className="flex h-screen">
+                <div className="hidden sm:block md:w-[20%] w-auto h-full mr-3 shadow-lg">
+                    <Sidebar />
+                </div>
+                <div className="flex items-center justify-center h-screen">
 
-                    <div className="flex w-full h-full justify-between">
-
-                        <div className="w-1/2">
-                            <div className='h-full justify-center items-center flex-col flex space-y-8'>
-                                <div className="text-lg mt-4 w-3/4">
-                                    <div className="justify-center items-center flex ">
-                                        <Image src='/contact.png' alt="Contact Icon"  width={40} height={40} />
+                    <div className="justify-center items-center border border-slate-800 p-4 w-auto h-auto divide-y divide-dashed hover:divide-solid shadow-lg">
+                        <div className="flex w-full h-full justify-between">
+                            <div className="w-1/2 md:block hidden">
+                                <div className="h-full justify-center items-center flex-col flex space-y-8">
+                                    <div className="text-lg mt-4 w-3/4">
+                                        <div className="justify-center items-center flex">
+                                            <Image src="/contact.png" alt="Contact Icon" width={40} height={40} />
+                                        </div>
+                                        <div className="font-bold flex justify-center items-center">Agents</div>
+                                        <span className="text-gray-600 w-1/6">
+                                            Please select an Agent that will be providing you a service
+                                        </span>
                                     </div>
-                                    <div className="font-bold flex justify-center items-center">Agents</div>
-                                    <span className="text-gray-600 w-1/6">
-                                        Please select an Agent that will be providing you a service
-                                    </span>
-                                </div>
-                                <div className='w-3/4'>
-                                    ContactUs:-<span className="text-blue-500">+91 999xxxxx</span>
+                                    <div className="w-3/4">
+                                        Contact Us: <span className="text-blue-500">+91 999xxxxx</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
+                            <div className="w-1/2">
+                                <div className="flex justify-center items-center m-4 mb-6 text-4xl">Available Agents</div>
+                                <ul className="flex flex-col items-center space-y-4">
+                                    {agents.map((agent) => (
+                                        <li
+                                            key={agent.name}
+                                            className="cursor-pointer outline outline-2 outline-slate-500 hover:outline-blue-500 p-4 rounded-lg w-2/3 flex items-center space-x-4"
+                                            onClick={() => handleOnAgent({ service: agent.name })}
+                                        >
+                                            <Image
+                                                src={agent.image}
+                                                alt={`${agent.name} Icon`}
+                                                width={40}
+                                                height={40}
+                                                className="w-14 h-14 flex justify-center items-center m-3"
+                                            />
+                                            <div className="font-semibold">{agent.name}</div>
+                                        </li>
+                                    ))}
+                                </ul>
+                                <div className="mt-6 cursor-pointer" onClick={handleOnclick}>
+                                    🔙 Back
+                                </div>
+                            </div>
 
-                        <div className="w-1/2">
-                            <div className="flex justify-center items-center m-4 mb-6 text-4xl">Available Agents</div>
-                            <ul className="space-x-4 flex">
-
-                                <li className="cursor-pointer space-x-4 outline outline-2 outline-slate-500 hover:outline-blue-500 p-4 rounded-lg w-2/3"
-                                 onClick={()=>handleOnAgent({service:'Any Agent'})}
-                                 >
-                                    <Image src='/boycontacts.png' alt="Any Agent"  width={40} height={40} className="w-14 h-14 flex justify-center items-center m-3" />
-
-                                    <div className="font-semibold">Any Agent</div>
-
-                                </li>
-
-
-                                <li className=" cursor-pointer items-center space-x-4 outline outline-2 outline-slate-500 hover:outline-blue-500 p-4 rounded-lg w-2/3"
-                                 onClick={()=>handleOnAgent({service:'John'})}
-                                >
-                                    <div><Image src='/young-man.png' alt="John Icon"  width={40} height={40} className="w-14 h-14 m-3" /></div>
-                                    <div>
-                                        <div className="font-semibold">John</div>
+                            <div className="relative">
+                                <Image
+                                    src="/cart.png"
+                                    alt="Cart Icon"
+                                    width={40}
+                                    height={40}
+                                    className="cursor-pointer"
+                                    onClick={toggleCart}
+                                />
+                                {cartVisible && (
+                                    <div className="absolute right-0 top-10 bg-white border border-gray-600 p-6 rounded-lg shadow-lg z-50 w-64 animate-fadeIn">
+                                        <button
+                                            className="text-right text-gray-500 hover:text-red-500 mb-4"
+                                            onClick={toggleCart}
+                                        >
+                                            Close
+                                        </button>
+                                        <Summary />
                                     </div>
-                                </li>
-
-
-                                <li className="cursor-pointer items-center space-x-4 outline outline-2 outline-slate-500 hover:outline-blue-500 p-4 rounded-lg w-2/3"
-                                 onClick={()=>handleOnAgent({   service:'Mirra'})}
-                                >
-                                    <Image src='/woman.png' alt="Hair Wash Icon"  width={40} height={40} className="w-14 h-14 m-3" />
-                                    <div>
-                                        <div className="font-semibold font-">Mirra</div>
-                                    </div>
-                                </li>
-                            </ul>
-                            <div className='mt-6 cursor-pointer' onClick={()=>handleOnclick()}>
-                                🔙Back</div>
+                                )}
+                            </div>
                         </div>
-
-                        <div className="flex flex-col flex-1 border border-gray-600 p-6 rounded-lg shadow-lg m-5">
-                            <Summary/>
-                        </div>
-
                     </div>
                 </div>
-            </div>
-        </>
-    );
+                </div>
+            </>
+            );
 }
