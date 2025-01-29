@@ -5,8 +5,8 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "start": "npm run dev"
   },
   "dependencies": {
     "@svgr/webpack": "^8.1.0",
