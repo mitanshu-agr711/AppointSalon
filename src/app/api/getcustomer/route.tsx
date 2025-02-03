@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { Sign } from '../../../lib/registeration/signup';
 
-export async function GET(req) {
+export async function GET(req: Request): Promise<NextResponse> {
     try {
         
         const { searchParams } = new URL(req.url);
