@@ -1,10 +1,10 @@
-import { NextResponse } from 'next/server';
+import { NextResponse,NextRequest } from 'next/server';
 
 import { Sign } from '@/lib/registeration/signup';
 import bcrypt from 'bcrypt';
 import { generateToken } from '../auth/generateToken';
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
     try {
 
         const body = await req.json();
