@@ -1,7 +1,16 @@
 import { NextResponse } from 'next/server';
 import { Service } from '../../../lib/service/service'; 
 
-export async function GET(req) {
+interface Request {
+  url: string;
+}
+
+interface ServiceType {
+  email: string;
+  // Add other service properties here
+}
+
+export async function GET(req: Request): Promise<NextResponse> {
   try {
     const { searchParams } = new URL(req.url);
     const email = searchParams.get('email'); 
@@ -14,8 +23,8 @@ export async function GET(req) {
     }
 
     console.log('Fetching services for email:', email);
-    const services = await Service.find({ email });
-  console.log('Services:', services);
+    const services: ServiceType[] = await Service.find({ email });
+    console.log('Services:', services);
     if (!services || services.length === 0) {
       return NextResponse.json(
         { error: 'No services found for this email.' },

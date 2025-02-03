@@ -37,7 +37,7 @@ const Summary: React.FC = () => {
       if (response.ok) {
         console.log('Service deleted:', data.deletedService);
         removeSummary(index);
-        setShowAddButton(true); // Show +Add button after removing an entry
+        setShowAddButton(true); 
       } else {
         setErrorMessage('Failed to delete, Please try again.');
         console.error('Error:', data.error);
@@ -86,7 +86,7 @@ const Summary: React.FC = () => {
       });
 
       if (response.status === 201) {
-        setShowAddButton(true); // Show +Add button after saving an entry
+        setShowAddButton(true); 
       } else {
         setErrorMessage('Failed to save data. Please try again.');
       }

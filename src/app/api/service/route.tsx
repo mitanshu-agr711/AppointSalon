@@ -4,7 +4,7 @@ import { Service } from '@/lib/service/service';
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { agent, service, price, email,slot,index } = body;
+    let { agent, service, price, email,slot,index } = body;
      
    console.log("body", body);
     if (!agent || !service || !price || !email ||index === undefined) {

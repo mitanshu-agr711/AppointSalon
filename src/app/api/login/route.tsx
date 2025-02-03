@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 
-import { Login } from '@/lib/registeration/login';
+import { Sign } from '@/lib/registeration/signup';
 import bcrypt from 'bcrypt';
 import { generateToken } from '../auth/generateToken';
 
@@ -13,7 +13,7 @@ export async function POST(req: Request) {
         if ( !email || !password) {
             return NextResponse.json({ error: 'user not found' }, { status: 404 });
         }
-       const user = await Login.findOne({ email });
+       const user = await Sign.findOne({ email });
        if (!user) {
         return NextResponse.json(
             { error: 'Invalid email or password.' },
