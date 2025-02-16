@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
 import { useAppointmentStore } from '@/store/appointmentStore';
-import { useState } from 'react';
+import { FC, Suspense, useState } from 'react';
 
 type Service = {
     name: string;
@@ -37,8 +37,7 @@ const services: Service[] = [
 ];
 
 export default function BookApp() {
-    const searchParams = useSearchParams();
-    const selectedLabel = searchParams.get('service') === 'true';
+
 
     const addPrice = useAppointmentStore((state) => state.addPrice);
     const addServiceHair = useAppointmentStore((state) => state.addServiceHair);
@@ -110,29 +109,11 @@ export default function BookApp() {
                                 ))}
                             </ul>
                         </div>
-                        {selectedLabel && (
-                            <div className="relative">
-                                <Image
-                                    src="/cart.png"
-                                    alt="cart"
-                                    width={40}
-                                    height={40}
-                                    className="cursor-pointer"
-                                    onClick={toggleCart}
-                                />
-                                {cartVisible && (
-                                    <div className="absolute right-0 top-10 bg-white border border-gray-600 p-6 rounded-lg shadow-lg z-50 w-64">
-                                        <button
-                                            className="text-right text-gray-500 hover:text-red-500"
-                                            onClick={toggleCart}
-                                        >
-                                            Close
-                                        </button>
-                                        <Summary />
-                                    </div>
-                                )}
-                            </div>
-                        )}
+                        <Suspense fallback={<div>Loading...</div>}>
+                            <Cart toggleCart={toggleCart} cartVisible={cartVisible} />
+                        </Suspense>
+
+
                     </div>
                 </div>
             </div>
@@ -140,3 +121,46 @@ export default function BookApp() {
     );
 
 }
+
+
+interface Props {
+    toggleCart: () => void;
+    cartVisible: boolean;
+
+}
+
+
+const Cart: FC<Props> = ({
+    toggleCart,
+    cartVisible
+}) => {
+
+    const searchParams = useSearchParams();
+    const selectedLabel = searchParams.get('service') === 'true';
+
+    if (!selectedLabel) return null;
+
+    return (
+        <div className="relative">
+            <Image
+                src="/cart.png"
+                alt="cart"
+                width={40}
+                height={40}
+                className="cursor-pointer"
+                onClick={toggleCart}
+            />
+            {cartVisible && (
+                <div className="absolute right-0 top-10 bg-white border border-gray-600 p-6 rounded-lg shadow-lg z-50 w-64">
+                    <button
+                        className="text-right text-gray-500 hover:text-red-500"
+                        onClick={toggleCart}
+                    >
+                        Close
+                    </button>
+                    <Summary />
+                </div>
+            )}
+        </div>
+    )
+};

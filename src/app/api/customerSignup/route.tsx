@@ -20,7 +20,7 @@ export async function POST(req: Request) {
         console.log("token", token);
 
         return NextResponse.json({ message: 'User SignUp successfully',  user: { firstName, secondName, email }, token,}, { status: 201 });
-    } catch (error) {
+    } catch (error: any) {
         if (error.name === 'ValidationError') {
             return NextResponse.json({
                 error: 'Validation failed',

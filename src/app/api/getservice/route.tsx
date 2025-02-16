@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { Service } from '../../../lib/service/service'; 
 
 interface Request {
@@ -10,7 +10,7 @@ interface ServiceType {
   // Add other service properties here
 }
 
-export async function GET(req: Request): Promise<NextResponse> {
+export async function GET(req: NextRequest): Promise<NextResponse> {
   try {
     const { searchParams } = new URL(req.url);
     const email = searchParams.get('email'); 

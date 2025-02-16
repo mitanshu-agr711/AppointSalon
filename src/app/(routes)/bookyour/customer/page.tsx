@@ -62,7 +62,7 @@ const [errorMessage, setErrorMessage] = useState('');
             } else {
                 setErrorMessage('Failed to save data. Please try again.');
             }
-       }catch (error)  {
+       }catch (error:any)  {
             console.error('Error saving data:', error);
             setErrorMessage(error.response?.data?.error || 'Something went wrong.');
         }

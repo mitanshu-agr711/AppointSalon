@@ -60,11 +60,11 @@ const Calendar = () => {
     const generateDays = () => {
         const startOfMonth = currentDate.clone().startOf("month");
         const endOfMonth = currentDate.clone().endOf("month");
-        const days: (number | null)[] = [];
+        const days: (number )[] = [];
 
-        for (let i = 0; i < startOfMonth.day(); i++) {
-            days.push(null);
-        }
+        // for (let i = 0; i < startOfMonth.day(); i++) {
+        //     days.push(null);
+        // }
 
         for (let day = 1; day <= endOfMonth.date(); day++) {
             days.push(day);
