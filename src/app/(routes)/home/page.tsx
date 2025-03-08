@@ -1,14 +1,16 @@
 'use client'
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { Scissors, Palette, Droplets, Clock, MapPin, Shield, Calendar, LogIn, CheckCircle, ChevronRight, Facebook, Instagram, Twitter, Mail, Phone } from 'lucide-react';
-import { useRef } from 'react';
+import { Scissors, Palette, Droplets, Clock, MapPin, Menu, X , Shield, Calendar, LogIn, CheckCircle, ChevronRight, Facebook, Instagram, Twitter, Mail, Phone } from 'lucide-react';
+import { useRef, useState } from 'react';
+// import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 
 export default function Home() {
   const router = useRouter();
   const servicesRef = useRef(null);
   const featuresRef = useRef(null);
   const contactRef = useRef(null);
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleClick = () => {
     router.push('/bookyour');
@@ -63,13 +65,14 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-400 via-yellow-300 to-orange-400">
-      <nav className="bg-blue-500/80 backdrop-blur-sm shadow-lg fixed w-full top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <nav className="bg-blue-500/80 backdrop-blur-sm shadow-lg fixed w-full top-0 z-50 ">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">
               <span className="text-2xl font-bold text-yellow-300">MUSKAN</span>
             </div>
-            <ul className="flex items-center space-x-8">
+            <div className='hidden md:block'>
+            <ul className="flex items-center space-x-8 ">
               <li className="text-white hover:text-orange-300 font-medium cursor-pointer transition-colors duration-200" onClick={() => scrollToSection(servicesRef)}>
                 Services
               </li>
@@ -88,9 +91,54 @@ export default function Home() {
                 </button>
               </li>
             </ul>
+           </div>
+             <div className="md:hidden">
+              <button onClick={() => setIsOpen(!isOpen)}>
+                {isOpen ? (
+                  <X className="w-8 h-8 text-white" />
+                ) : (
+                  <Menu className="w-8 h-8 text-white" />
+                )}
+              </button>
+            </div>
           </div>
         </div>
+
+        {isOpen && (
+          <div className="md:hidden bg-blue-500/90 backdrop-blur-md p-4">
+            <ul className="flex flex-col space-y-4 text-center">
+              <li
+                className="text-white hover:text-orange-300 font-medium cursor-pointer transition-colors duration-200"
+                onClick={() => scrollToSection(servicesRef)}
+              >
+                Services
+              </li>
+              <li
+                className="text-white hover:text-orange-300 font-medium cursor-pointer transition-colors duration-200"
+                onClick={() => scrollToSection(featuresRef)}
+              >
+                Features
+              </li>
+              <li className="text-white hover:text-orange-300 font-medium cursor-pointer transition-colors duration-200">
+                About Us
+              </li>
+              <li
+                className="text-white hover:text-orange-300 font-medium cursor-pointer transition-colors duration-200"
+                onClick={() => scrollToSection(contactRef)}
+              >
+                Contact
+              </li>
+              <li>
+                <button className="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition-colors duration-200 w-full">
+                  My Account
+                </button>
+              </li>
+            </ul>
+          </div>
+        )}
       </nav>
+  
+      
 
       <div className="pt-20 px-4">
         {/* discription */}

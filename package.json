@@ -10,6 +10,7 @@
     "start": "npm run dev"
   },
   "dependencies": {
+    "@heroicons/react": "^2.2.0",
     "@svgr/webpack": "^8.1.0",
     "@types/paytmchecksum": "^1.5.0",
     "@types/payu-emea-sdk": "^1.0.10",
