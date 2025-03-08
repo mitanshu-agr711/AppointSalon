@@ -103,11 +103,9 @@ const Summary: React.FC = () => {
   }
   
   return (
-    <div className="p-4 gap-y-4">
-      <div className="flex flex-row">
-        <h1 className="text-2xl font-bold flex justify-center items-center">
-          Summary
-        </h1>
+    <div className="p-6 gap-y-6 bg-white rounded-lg shadow-md h-[600px] flex flex-col">
+      <div className="flex flex-row justify-between items-center">
+        <h1 className="text-3xl font-bold text-orange-600">Summary</h1>
         {summary.length > 0 && (
           <div
             className="text-blue-600 ml-2 cursor-pointer hover:text-blue-800"
@@ -120,46 +118,50 @@ const Summary: React.FC = () => {
 
       {errorMessage && <p className="text-red-500">{errorMessage}</p>}
 
-      {summary.length > 0 ? (
-        summary.map((entry, index) => (
-          <div
-            key={index}
-            className="mb-6 border border-gray-300 p-4 rounded-md flex justify-between items-center"
-          >
-            <div>
-              <div className="text-gray-700">{entry.serviceHair || 'None selected'}</div>
-              <div className="text-blue-700">{entry.slot || 'No slot booked'}</div>
-              <div className="flex">
-                <h3 className="font-bold">Agent:</h3>
-                <div className="text-gray-700 ml-2">{entry.agent || 'None assigned'}</div>
+      <div className="flex-1 overflow-y-auto custom-scrollbar">
+        {summary.length > 0 ? (
+          summary.map((entry, index) => (
+            <div
+              key={index}
+              className="mb-6 border border-gray-300 p-4 rounded-md flex justify-between items-center "
+            >
+              <div className="flex flex-col">
+                <div className="text-gray-700 font-medium">{entry.serviceHair || 'None selected'}</div>
+                <div className="text-blue-700">{entry.slot || 'No slot booked'}</div>
+                <div className="flex">
+                  <h3 className="font-bold text-gray-600">Agent:</h3>
+                  <div className="text-gray-700 ml-2">{entry.agent || 'None assigned'}</div>
+                </div>
+                <div className="flex">
+                  <h3 className="font-bold text-gray-600">Price:</h3>
+                  <div className="text-gray-700 ml-2">${entry.price || 0}</div>
+                </div>
               </div>
-              <div className="flex">
-                <h3 className="font-bold">Price:</h3>
-                <div className="text-gray-700 ml-2">${entry.price || 0}</div>
+
+              <div className="flex space-x-4">
+                <button
+                  className={`text-green-500 font-bold text-sm px-4 py-2 rounded-md ${
+                    savingIndex === index ? 'opacity-50 cursor-not-allowed' : 'hover:bg-green-200'
+                  }`}
+                  onClick={() => handleSaveToAPI(entry, index)}
+                  disabled={savingIndex === index}
+                >
+                  Save
+                </button>
+
+                <button
+                  className="text-red-500 font-bold text-xl hover:bg-red-200"
+                  onClick={() => deleteService(index)}
+                >
+                  -
+                </button>
               </div>
             </div>
-
-            <button
-              className={`text-green-500 font-bold text-sm px-4 py-2 rounded-md ${
-                savingIndex === index ? 'opacity-50 cursor-not-allowed' : 'hover:bg-green-200'
-              }`}
-              onClick={() => handleSaveToAPI(entry, index)}
-              disabled={savingIndex === index}
-            >
-              Save
-            </button>
-
-            <button
-              className="text-red-500 font-bold text-xl hover:bg-red-200"
-              onClick={() => deleteService(index)}
-            >
-              -
-            </button>
-          </div>
-        ))
-      ) : (
-        <div className="text-gray-500">No summary available yet.</div>
-      )}
+          ))
+        ) : (
+          <div className="text-gray-500">No summary available yet.</div>
+        )}
+      </div>
 
       <div className="border-t border-blue-300 my-6 w-full"></div>
       <div className="mt-4">
