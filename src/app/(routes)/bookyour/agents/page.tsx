@@ -35,15 +35,15 @@ export default function Agents() {
 
     return (
         <>
-            <div className="flex-row h-[100%] border border-gray-600 md:w-[20%] sm:hidden shadow-lg bg-gray-100">
+            <div className="flex-row h-[100%] border border-gray-600 md:w-[20%] sm:hidden shadow-lg bg-white">
                 <Sidebar />
             </div>
 
-            <div className="flex h-screen bg-gray-100">
-                <div className="hidden sm:block md:w-[20%] w-auto h-full mr-3 shadow-lg bg-gray-100">
+            <div className="flex h-screen bg-gray-100 space-x-10 ">
+                <div className="hidden sm:block md:w-[20%] w-auto h-full mr-3 shadow-lg bg-white">
                     <Sidebar />
                 </div>
-                <div className="flex items-center justify-center h-screen">
+                <div className="flex items-center justify-center h-screen w-screen">
                     <div className="justify-center items-center border border-slate-800 p-4 w-auto h-auto divide-y divide-dashed hover:divide-solid shadow-lg bg-white rounded-lg">
                         <div className="flex w-full h-full justify-between">
                             <div className="w-1/2 md:block hidden">
@@ -63,13 +63,14 @@ export default function Agents() {
                                 </div>
                             </div>
 
-                            <div className="w-1/2">
+                            <div className="w-full md:w-1/2">
+                           
                                 <div className="flex justify-center items-center m-4 mb-6 text-4xl text-orange-600">Available Agents</div>
                                 <ul className="flex flex-col items-center space-y-4">
                                     {agents.map((agent) => (
                                         <li
                                             key={agent.name}
-                                            className="cursor-pointer outline outline-2 outline-slate-500 hover:outline-blue-500 p-4 rounded-lg w-2/3 flex items-center space-x-4"
+                                            className="cursor-pointer outline outline-2 outline-slate-500 hover:outline-blue-500 p-4 rounded-lg md:w-2/3 flex flex-row  items-center space-x-4 w-full"
                                             onClick={() => handleOnAgent({ service: agent.name })}
                                         >
                                             <Image
@@ -82,13 +83,13 @@ export default function Agents() {
                                             <div className="font-semibold text-gray-700">{agent.name}</div>
                                         </li>
                                     ))}
-                                     <div className="mt-6 cursor-pointer text-gray-600 hover:text-orange-600" onClick={handleOnclick}>
-                                    Back
-                                </div>
+                                    <div className="mt-6 cursor-pointer text-gray-600 hover:text-orange-600" onClick={handleOnclick}>
+                                        Back
+                                    </div>
                                 </ul>
-                               
-                            </div>
 
+                              
+                            </div>
                             <div className="relative">
                                 <Image
                                     src="/cart.png"
@@ -110,6 +111,8 @@ export default function Agents() {
                                     </div>
                                 )}
                             </div>
+                          
+                          
                         </div>
                     </div>
                 </div>

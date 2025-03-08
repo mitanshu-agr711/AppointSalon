@@ -20,19 +20,19 @@ const services: Service[] = [
         name: 'Hair Coloring',
         description: 'Change Color of hair permanently',
         icon: '/blow-dry.png',
-        price: 700,
+        price: 20,
     },
     {
         name: 'Hair Cut',
         description: 'Experience a perfect haircut with the best stylists',
         icon: '/scissors.png',
-        price: 500,
+        price: 15,
     },
     {
         name: 'Hair Wash',
         description: 'Enjoy a refreshing hair wash experience',
         icon: '/tube.png',
-        price: 400,
+        price: 15,
     },
 ];
 
