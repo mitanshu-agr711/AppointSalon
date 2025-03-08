@@ -38,7 +38,6 @@ const services: Service[] = [
 
 export default function BookApp() {
 
-
     const addPrice = useAppointmentStore((state) => state.addPrice);
     const addServiceHair = useAppointmentStore((state) => state.addServiceHair);
 
@@ -59,34 +58,31 @@ export default function BookApp() {
 
     return (
         <>
-            <div className="flex-row h-[100%] border border-gray-600  md:w-[20%] sm:hidden m-5" >
+            <div className="flex-row h-[100%] border border-gray-600  md:w-[20%] sm:hidden m-5 bg-gray-100 shadow-md" >
                 <Sidebar />
             </div>
 
-            <div className="flex h-screen">
+            <div className="flex h-screen bg-gray-100">
 
-                <div className="hidden sm:block md:w-[20%] w-auto h-full mr-3 shadow-lg">
+                <div className="hidden sm:block md:w-[20%] w-auto h-full mr-3 shadow-lg bg-white shadow-md">
                     <Sidebar />
                 </div>
 
-                {/* <div className="hidden sm:block w-[40%] border h-[100%] border-gray-600  md:w-[30%]" >
-                <Sidebar />
-            </div> */}
                 <div className="flex-grow p-6 flex justify-center items-center">
                     <div className="flex space-x-6 w-full max-w-6xl">
-                        <div className="hidden md:block flex flex-col flex-1 border border-gray-600 p-6 rounded-lg shadow-lg space-y-4 ">
-                            <div className="text-lg ">
-                                <div className="font-bold">Service Selection</div>
+                        <div className="hidden md:block flex flex-col flex-1 border bg-white border-gray-600 p-6 rounded-lg shadow-lg space-y-4 bg-gray-100 shadow-md">
+                            <div className="text-lg text-gray-700">
+                                <div className="font-bold text-orange-600">Service Selection</div>
                                 <span className="text-gray-600">
                                     Please select a service for which you want to schedule an appointment
                                 </span>
                             </div>
                             <div className="mt-auto">
-                                ContactUs: <span className="text-blue-500">+91 999xxxxx</span>
+                                Contact Us: <span className="text-blue-500">+91 999xxxxx</span>
                             </div>
                         </div>
-                        <div className="flex flex-col flex-1 border border-gray-600 p-6 rounded-lg shadow-lg space-y-4">
-                            <div className="text-2xl text-center">Available Services</div>
+                        <div className="flex flex-col flex-1 border bg-white border-gray-600 p-6 rounded-lg shadow-lg space-y-4 bg-gray-100 shadow-md">
+                            <div className="text-2xl text-center text-orange-600">Available Services</div>
                             <ul className="space-y-4">
                                 {services.map((service) => (
                                     <li
@@ -102,7 +98,7 @@ export default function BookApp() {
                                             className="w-10 h-10"
                                         />
                                         <div>
-                                            <div>{service.name}</div>
+                                            <div className="text-gray-700">{service.name}</div>
                                             <div className="text-sm text-gray-600">{service.description}</div>
                                         </div>
                                     </li>
@@ -112,23 +108,20 @@ export default function BookApp() {
                         <Suspense fallback={<div>Loading...</div>}>
                             <Cart toggleCart={toggleCart} cartVisible={cartVisible} />
                         </Suspense>
-
-
                     </div>
                 </div>
             </div>
+            
         </>
     );
 
 }
-
 
 interface Props {
     toggleCart: () => void;
     cartVisible: boolean;
 
 }
-
 
 const Cart: FC<Props> = ({
     toggleCart,
@@ -162,5 +155,6 @@ const Cart: FC<Props> = ({
                 </div>
             )}
         </div>
+    
     )
 };

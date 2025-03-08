@@ -34,18 +34,17 @@ export default function Agents() {
     const toggleCart = () => setCartVisible((prev) => !prev);
 
     return (
-    <>
-            <div className="flex-row h-[100%] border border-gray-600 md:w-[20%] sm:hidden shadow-lg">
+        <>
+            <div className="flex-row h-[100%] border border-gray-600 md:w-[20%] sm:hidden shadow-lg bg-gray-100">
                 <Sidebar />
             </div>
 
-            <div className="flex h-screen">
-                <div className="hidden sm:block md:w-[20%] w-auto h-full mr-3 shadow-lg">
+            <div className="flex h-screen bg-gray-100">
+                <div className="hidden sm:block md:w-[20%] w-auto h-full mr-3 shadow-lg bg-gray-100">
                     <Sidebar />
                 </div>
                 <div className="flex items-center justify-center h-screen">
-
-                    <div className="justify-center items-center border border-slate-800 p-4 w-auto h-auto divide-y divide-dashed hover:divide-solid shadow-lg">
+                    <div className="justify-center items-center border border-slate-800 p-4 w-auto h-auto divide-y divide-dashed hover:divide-solid shadow-lg bg-white rounded-lg">
                         <div className="flex w-full h-full justify-between">
                             <div className="w-1/2 md:block hidden">
                                 <div className="h-full justify-center items-center flex-col flex space-y-8">
@@ -53,7 +52,7 @@ export default function Agents() {
                                         <div className="justify-center items-center flex">
                                             <Image src="/contact.png" alt="Contact Icon" width={40} height={40} />
                                         </div>
-                                        <div className="font-bold flex justify-center items-center">Agents</div>
+                                        <div className="font-bold flex justify-center items-center text-orange-600">Agents</div>
                                         <span className="text-gray-600 w-1/6">
                                             Please select an Agent that will be providing you a service
                                         </span>
@@ -65,7 +64,7 @@ export default function Agents() {
                             </div>
 
                             <div className="w-1/2">
-                                <div className="flex justify-center items-center m-4 mb-6 text-4xl">Available Agents</div>
+                                <div className="flex justify-center items-center m-4 mb-6 text-4xl text-orange-600">Available Agents</div>
                                 <ul className="flex flex-col items-center space-y-4">
                                     {agents.map((agent) => (
                                         <li
@@ -80,13 +79,14 @@ export default function Agents() {
                                                 height={40}
                                                 className="w-14 h-14 flex justify-center items-center m-3"
                                             />
-                                            <div className="font-semibold">{agent.name}</div>
+                                            <div className="font-semibold text-gray-700">{agent.name}</div>
                                         </li>
                                     ))}
-                                </ul>
-                                <div className="mt-6 cursor-pointer" onClick={handleOnclick}>
-                                    🔙 Back
+                                     <div className="mt-6 cursor-pointer text-gray-600 hover:text-orange-600" onClick={handleOnclick}>
+                                    Back
                                 </div>
+                                </ul>
+                               
                             </div>
 
                             <div className="relative">
@@ -113,7 +113,7 @@ export default function Agents() {
                         </div>
                     </div>
                 </div>
-                </div>
-            </>
-            );
+            </div>
+        </>
+    );
 }
