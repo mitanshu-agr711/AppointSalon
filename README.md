@@ -7,8 +7,8 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 ### Clone the Repository
 
 ```bash
-git clone <your-repository-url>
-cd <your-project-folder>
+git clone(https://github.com/mitanshu-agr711/AppointSalon)
+
 ```
 
 ### Install Dependencies
